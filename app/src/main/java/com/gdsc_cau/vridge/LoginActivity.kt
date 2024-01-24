@@ -1,15 +1,19 @@
 package com.gdsc_cau.vridge
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import com.gdsc_cau.vridge.ui.theme.VridgeTheme
 
 class LoginActivity : ComponentActivity() {
@@ -22,7 +26,9 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting2("Android")
+                    Column {
+                        LoginButton()
+                    }
                 }
             }
         }
@@ -30,9 +36,14 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting2(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
+fun LoginButton(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
+    ElevatedButton(
         modifier = modifier
-    )
+            .fillMaxWidth(),
+        onClick = {
+            context.startActivity(Intent(context, MainActivity::class.java))
+        }) {
+        Text("Go to Main")
+    }
 }
