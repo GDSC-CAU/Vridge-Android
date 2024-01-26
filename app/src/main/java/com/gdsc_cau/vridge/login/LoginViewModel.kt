@@ -1,7 +1,6 @@
 package com.gdsc_cau.vridge.login
 
 import android.content.Intent
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
 import androidx.lifecycle.MutableLiveData
