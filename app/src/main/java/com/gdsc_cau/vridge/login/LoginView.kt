@@ -40,13 +40,13 @@ fun LoginLogo(modifier: Modifier = Modifier) {
 @Composable
 fun LoginButton(
     modifier: Modifier = Modifier,
-    onTryLogin: () -> Unit
+    onTryLogin: () -> Unit,
 ) {
     Image(
         modifier =
-        modifier
-            .fillMaxWidth(fraction = 0.5f)
-            .clickable { onTryLogin() },
+            modifier
+                .fillMaxWidth(fraction = 0.5f)
+                .clickable { onTryLogin() },
         painter = painterResource(id = R.drawable.btn_signin_google),
         contentDescription = "Sign in with Google",
     )
