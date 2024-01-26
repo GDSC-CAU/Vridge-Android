@@ -11,7 +11,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(): ViewModel() {
+class LoginViewModel
+@Inject
+constructor() :
+    ViewModel() {
     val isLoggedIn = MutableLiveData(false)
 
     fun tryGoogleLogin(signInLauncher: ActivityResultLauncher<Intent>) {
@@ -19,8 +22,9 @@ class LoginViewModel @Inject constructor(): ViewModel() {
     }
 
     fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
-        if (result.resultCode == ComponentActivity.RESULT_OK
-            && FirebaseAuthUtil.getCurrentUser() != null) {
+        if (result.resultCode == ComponentActivity.RESULT_OK &&
+            FirebaseAuthUtil.getCurrentUser() != null
+        ) {
             isLoggedIn.postValue(true)
         } else {
             // TODO: Show Snack Bar?
