@@ -29,24 +29,9 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Column {
-                        LoginButton()
-                    }
+                    LoginView()
                 }
             }
         }
-    }
-}
-
-@Composable
-fun LoginButton(modifier: Modifier = Modifier) {
-    val context = LocalContext.current
-    ElevatedButton(
-        modifier = modifier.fillMaxWidth(),
-        onClick = {
-            context.startActivity(Intent(context, MainActivity::class.java))
-        }
-    ) {
-        Text("Go to Main")
     }
 }
