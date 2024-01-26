@@ -2,6 +2,7 @@ package com.gdsc_cau.vridge.login
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -36,6 +37,7 @@ class LoginActivity : ComponentActivity() {
 
         viewModel.isLoggedIn.observe(this) {
             if(it.equals(true)) {
+                Log.d("USER Logged In", FirebaseAuthUtil.getCurrentUser()!!.email!!)
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             }

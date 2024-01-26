@@ -22,7 +22,6 @@ class LoginViewModel @Inject constructor(): ViewModel() {
     fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
         if (result.resultCode == ComponentActivity.RESULT_OK
             && FirebaseAuthUtil.getCurrentUser() != null) {
-            Log.d("USER Logged In", FirebaseAuthUtil.getCurrentUser()!!.email!!)
             isLoggedIn.postValue(true)
         } else {
             // TODO: Show Snack Bar?
