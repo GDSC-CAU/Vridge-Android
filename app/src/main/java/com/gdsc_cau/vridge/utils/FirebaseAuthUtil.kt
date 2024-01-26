@@ -23,7 +23,8 @@ object FirebaseAuthUtil {
     fun tryGoogleLogin(signInLauncher: ActivityResultLauncher<Intent>) {
         initFirebaseAuth()
         val signInProvider = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
-        val signInIntent = AuthUI.getInstance()
+        val signInIntent =
+            AuthUI.getInstance()
             .createSignInIntentBuilder()
             .setAvailableProviders(signInProvider)
             .build()
