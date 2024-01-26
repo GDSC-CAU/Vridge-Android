@@ -15,14 +15,13 @@ import androidx.compose.ui.unit.dp
 import com.gdsc_cau.vridge.R
 
 @Composable
-fun LoginView(onTryLogin: ()->Unit) {
+fun LoginView(onTryLogin: () -> Unit) {
     val modifier = Modifier
 
     Column(
-        modifier = modifier
-            .padding(all = 20.dp),
+        modifier = modifier.padding(all = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceEvenly
+        verticalArrangement = Arrangement.SpaceEvenly,
     ) {
         LoginLogo(modifier = modifier)
         LoginButton(modifier = modifier, onTryLogin = onTryLogin)
@@ -34,17 +33,21 @@ fun LoginLogo(modifier: Modifier = Modifier) {
     Image(
         modifier = modifier.size(width = 200.dp, height = 200.dp),
         painter = painterResource(id = android.R.mipmap.sym_def_app_icon),
-        contentDescription = "Login Logo"
+        contentDescription = "Login Logo",
     )
 }
 
 @Composable
-fun LoginButton(modifier: Modifier = Modifier, onTryLogin: ()->Unit) {
+fun LoginButton(
+    modifier: Modifier = Modifier,
+    onTryLogin: () -> Unit
+) {
     Image(
-        modifier = modifier
+        modifier =
+        modifier
             .fillMaxWidth(fraction = 0.5f)
-            .clickable {onTryLogin()},
+            .clickable { onTryLogin() },
         painter = painterResource(id = R.drawable.btn_signin_google),
-        contentDescription = "Sign in with Google"
+        contentDescription = "Sign in with Google",
     )
 }
