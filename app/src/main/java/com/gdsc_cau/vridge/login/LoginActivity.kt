@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.gdsc_cau.vridge.MainActivity
 import com.gdsc_cau.vridge.ui.theme.VridgeTheme
+import com.gdsc_cau.vridge.utils.FirebaseAuthUtil
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,6 +39,10 @@ class LoginActivity : ComponentActivity() {
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             }
+        }
+
+        if(FirebaseAuthUtil.getCurrentUser() != null) {
+            viewModel.isLoggedIn.postValue(true)
         }
     }
 
