@@ -1,20 +1,12 @@
-package com.gdsc_cau.vridge.Login
+package com.gdsc_cau.vridge.login
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import com.gdsc_cau.vridge.MainActivity
 import com.gdsc_cau.vridge.ui.theme.VridgeTheme
 import dagger.hilt.android.AndroidEntryPoint
 

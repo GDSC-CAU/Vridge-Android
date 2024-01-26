@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.Login
+package com.gdsc_cau.vridge.login
 
 import android.content.Intent
 import androidx.compose.foundation.Image
