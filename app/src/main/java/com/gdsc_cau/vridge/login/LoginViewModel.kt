@@ -1,18 +1,16 @@
 package com.gdsc_cau.vridge.login
 
-import android.app.Application
-import android.content.Intent
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.gdsc_cau.vridge.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(
-    private val application: Application
-): ViewModel() {
+class LoginViewModel @Inject constructor(): ViewModel() {
+    val isLoggedIn = MutableLiveData(false)
+
     fun tryGoogleLogin() {
-        val context = application.applicationContext
-        context.startActivity(Intent(context, MainActivity::class.java))
+        // TODO: Google Sign-In Transaction
+        isLoggedIn.postValue(true)
     }
 }
