@@ -52,7 +52,7 @@ class LoginActivity : ComponentActivity() {
         registerForActivityResult(
             FirebaseAuthUIActivityResultContract(),
         ) {
-        res ->
+                res ->
             viewModel.onSignInResult(res)
         }
 }
