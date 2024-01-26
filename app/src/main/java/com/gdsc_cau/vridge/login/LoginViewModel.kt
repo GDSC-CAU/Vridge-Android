@@ -12,22 +12,22 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel
-@Inject
-constructor() :
+    @Inject
+    constructor() :
     ViewModel() {
-    val isLoggedIn = MutableLiveData(false)
+        val isLoggedIn = MutableLiveData(false)
 
-    fun tryGoogleLogin(signInLauncher: ActivityResultLauncher<Intent>) {
-        FirebaseAuthUtil.tryGoogleLogin(signInLauncher)
-    }
+        fun tryGoogleLogin(signInLauncher: ActivityResultLauncher<Intent>) {
+            FirebaseAuthUtil.tryGoogleLogin(signInLauncher)
+        }
 
-    fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
-        if (result.resultCode == ComponentActivity.RESULT_OK &&
-            FirebaseAuthUtil.getCurrentUser() != null
-        ) {
-            isLoggedIn.postValue(true)
-        } else {
-            // TODO: Show Snack Bar?
+        fun onSignInResult(result: FirebaseAuthUIAuthenticationResult) {
+            if (result.resultCode == ComponentActivity.RESULT_OK &&
+                FirebaseAuthUtil.getCurrentUser() != null
+            ) {
+                isLoggedIn.postValue(true)
+            } else {
+                // TODO: Show Snack Bar?
+            }
         }
     }
-}
