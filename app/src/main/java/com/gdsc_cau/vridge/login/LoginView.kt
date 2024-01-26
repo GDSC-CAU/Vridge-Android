@@ -2,16 +2,19 @@ package com.gdsc_cau.vridge.login
 
 import android.content.Intent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -46,12 +49,13 @@ fun LoginLogo(modifier: Modifier = Modifier) {
 fun LoginButton(modifier: Modifier = Modifier) {
     val context = LocalContext.current
 
-    ElevatedButton(
+    Image(
         modifier = modifier
-            .fillMaxWidth(),
-        onClick = {
-            context.startActivity(Intent(context, MainActivity::class.java))
-        }) {
-        Text(context.resources.getString(R.string.login_btn_signin))
-    }
+            .fillMaxWidth(fraction = 0.5f)
+            .clickable {
+                context.startActivity(Intent(context, MainActivity::class.java))
+            },
+        painter = painterResource(id = R.drawable.btn_signin_google),
+        contentDescription = "Sign in with Google"
+    )
 }
