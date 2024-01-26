@@ -4,8 +4,11 @@ import android.app.Application
 import android.content.Intent
 import androidx.lifecycle.ViewModel
 import com.gdsc_cau.vridge.MainActivity
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel(
+@HiltViewModel
+class LoginViewModel @Inject constructor(
     private val application: Application
 ): ViewModel() {
     fun tryGoogleLogin() {
