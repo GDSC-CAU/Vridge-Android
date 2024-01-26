@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.gdsc_cau.vridge.MainActivity
+import com.gdsc_cau.vridge.R
 
 @Composable
 fun LoginView() {
@@ -51,6 +52,6 @@ fun LoginButton(modifier: Modifier = Modifier) {
         onClick = {
             context.startActivity(Intent(context, MainActivity::class.java))
         }) {
-        Text("Go to Main")
+        Text(context.resources.getString(R.string.login_btn_signin))
     }
 }
