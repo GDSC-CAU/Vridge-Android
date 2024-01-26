@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -68,6 +69,8 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.48")
 
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
