@@ -16,12 +16,12 @@ object FirebaseAuthUtil {
     }
 
     fun getCurrentUser(): FirebaseUser? {
+        initFirebaseAuth()
         return auth.currentUser
     }
 
     fun tryGoogleLogin(signInLauncher: ActivityResultLauncher<Intent>) {
         initFirebaseAuth()
-
         val signInProvider = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
         val signInIntent = AuthUI.getInstance()
             .createSignInIntentBuilder()
