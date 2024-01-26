@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.gdsc_cau.vridge.MainActivity
 import com.gdsc_cau.vridge.ui.theme.VridgeTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,7 +27,7 @@ class LoginActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     LoginView(
-                        onTryLogin = { viewModel.tryGoogleLogin() }
+                        onTryLogin = { viewModel.tryGoogleLogin(signInLauncher) }
                     )
                 }
             }
@@ -38,5 +39,10 @@ class LoginActivity : ComponentActivity() {
                 finish()
             }
         }
+    }
+
+    private val signInLauncher = registerForActivityResult(
+        FirebaseAuthUIActivityResultContract()) {
+            res -> viewModel.onSignInResult(res)
     }
 }
