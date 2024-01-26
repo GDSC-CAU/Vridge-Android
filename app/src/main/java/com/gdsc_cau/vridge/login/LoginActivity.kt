@@ -26,30 +26,33 @@ class LoginActivity : ComponentActivity() {
             VridgeTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     LoginView(
-                        onTryLogin = { viewModel.tryGoogleLogin(signInLauncher) }
+                        onTryLogin = { viewModel.tryGoogleLogin(signInLauncher) },
                     )
                 }
             }
         }
 
         viewModel.isLoggedIn.observe(this) {
-            if(it.equals(true)) {
+            if (it.equals(true)) {
                 Log.d("USER Logged In", FirebaseAuthUtil.getCurrentUser()!!.email!!)
                 startActivity(Intent(applicationContext, MainActivity::class.java))
                 finish()
             }
         }
 
-        if(FirebaseAuthUtil.getCurrentUser() != null) {
+        if (FirebaseAuthUtil.getCurrentUser() != null) {
             viewModel.isLoggedIn.postValue(true)
         }
     }
 
-    private val signInLauncher = registerForActivityResult(
-        FirebaseAuthUIActivityResultContract()) {
-            res -> viewModel.onSignInResult(res)
-    }
+    private val signInLauncher =
+        registerForActivityResult(
+            FirebaseAuthUIActivityResultContract()
+        ) {
+            res ->
+                viewModel.onSignInResult(res)
+        }
 }
