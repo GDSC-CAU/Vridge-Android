@@ -25,9 +25,9 @@ object FirebaseAuthUtil {
         val signInProvider = arrayListOf(AuthUI.IdpConfig.GoogleBuilder().build())
         val signInIntent =
             AuthUI.getInstance()
-            .createSignInIntentBuilder()
-            .setAvailableProviders(signInProvider)
-            .build()
+                .createSignInIntentBuilder()
+                .setAvailableProviders(signInProvider)
+                .build()
         signInLauncher.launch(signInIntent)
     }
 }
