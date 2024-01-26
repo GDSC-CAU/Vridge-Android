@@ -50,9 +50,9 @@ class LoginActivity : ComponentActivity() {
 
     private val signInLauncher =
         registerForActivityResult(
-            FirebaseAuthUIActivityResultContract()
+            FirebaseAuthUIActivityResultContract(),
         ) {
-            res ->
-                viewModel.onSignInResult(res)
+        res ->
+            viewModel.onSignInResult(res)
         }
 }
