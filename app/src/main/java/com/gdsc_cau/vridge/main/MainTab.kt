@@ -1,6 +1,8 @@
 package com.gdsc_cau.vridge.main
 
 import com.gdsc_cau.vridge.R
+import com.gdsc_cau.vridge.profile.ProfileRoute
+import com.gdsc_cau.vridge.voicelist.VoiceListRoute
 
 enum class MainTab(
     val iconResId: Int,
