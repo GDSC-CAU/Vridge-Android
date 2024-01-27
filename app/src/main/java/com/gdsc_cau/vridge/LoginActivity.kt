@@ -41,11 +41,11 @@ class LoginActivity : ComponentActivity() {
 fun LoginButton(modifier: Modifier = Modifier) {
     val context = LocalContext.current
     ElevatedButton(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         onClick = {
             context.startActivity(Intent(context, MainActivity::class.java))
-        }) {
+        }
+    ) {
         Text("Go to Main")
     }
 }

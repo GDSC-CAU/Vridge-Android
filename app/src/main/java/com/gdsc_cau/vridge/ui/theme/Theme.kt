@@ -15,25 +15,27 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val DarkColorScheme = darkColorScheme(
-    primary = DarkPrimary,
-    onPrimary = PrimaryLight,
-    surface = OnPrimaryLight,
-    onSurface = Primary,
-    inversePrimary = PrimaryDark,
-    primaryContainer = PrimaryUpperLight,
-    background = Grey1
-)
+private val DarkColorScheme =
+    darkColorScheme(
+        primary = DarkPrimary,
+        onPrimary = PrimaryLight,
+        surface = OnPrimaryLight,
+        onSurface = Primary,
+        inversePrimary = PrimaryDark,
+        primaryContainer = PrimaryUpperLight,
+        background = Grey1
+    )
 
-private val LightColorScheme = lightColorScheme(
-    primary = Primary,
-    onPrimary = OnPrimary,
-    surface = PrimaryLight,
-    onSurface = OnPrimaryLight,
-    inversePrimary = PrimaryDark,
-    primaryContainer = PrimaryUpperLight,
-    background = White,
-)
+private val LightColorScheme =
+    lightColorScheme(
+        primary = Primary,
+        onPrimary = OnPrimary,
+        surface = PrimaryLight,
+        onSurface = OnPrimaryLight,
+        inversePrimary = PrimaryDark,
+        primaryContainer = PrimaryUpperLight,
+        background = White
+    )
 
 @Composable
 fun VridgeTheme(
@@ -42,15 +44,15 @@ fun VridgeTheme(
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    val colorScheme =
+        when {
+            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                val context = LocalContext.current
+                if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+            }
+            darkTheme -> DarkColorScheme
+            else -> LightColorScheme
         }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
-    }
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
