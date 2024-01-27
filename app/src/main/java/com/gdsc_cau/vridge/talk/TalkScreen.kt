@@ -7,5 +7,5 @@ import com.gdsc_cau.vridge.main.Greeting
 fun TalkScreen(
     sessionId: String
 ) {
-    Greeting(name = "Talk")
+    Greeting(name = "Talk $sessionId")
 }
