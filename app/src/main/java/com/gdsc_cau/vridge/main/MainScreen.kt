@@ -9,6 +9,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -33,6 +34,8 @@ fun MainScreen(
                     Modifier
                         .fillMaxSize()
                         .background(MaterialTheme.colorScheme.background)
+                        .padding(padding)
+                        .padding(horizontal = 8.dp, vertical = 8.dp)
             ) {
                 NavHost(
                     navController = navigator.navController,
@@ -65,6 +68,11 @@ fun MainScreen(
                     }
                 }
             }
+        },
+        topBar = {
+            MainTopBar(
+                title = navigator.currentTab?.title ?: "",
+            )
         },
         bottomBar = {
             MainBottomBar(
