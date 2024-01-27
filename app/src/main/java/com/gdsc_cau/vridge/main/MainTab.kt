@@ -7,17 +7,20 @@ import com.gdsc_cau.vridge.voicelist.VoiceListRoute
 enum class MainTab(
     val iconResId: Int,
     val contentDescription: String,
-    val route: String
+    val route: String,
+    val title: String
 ) {
     VOICE_LIST(
         iconResId = R.drawable.ic_voice,
         contentDescription = "Voice List",
-        route = VoiceListRoute.route
+        route = VoiceListRoute.route,
+        title = "Voice List"
     ),
     PROFILE(
         iconResId = R.drawable.ic_profile,
         contentDescription = "Profile",
-        route = ProfileRoute.route
+        route = ProfileRoute.route,
+        title = "Profile"
     );
 
     companion object {
