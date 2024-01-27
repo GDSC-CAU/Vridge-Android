@@ -9,7 +9,9 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
 import com.gdsc_cau.vridge.main.MainActivity
 import com.gdsc_cau.vridge.ui.theme.VridgeTheme
@@ -23,6 +25,8 @@ class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val isLoggedIn = viewModel.loginState.collectAsStateWithLifecycle().value
+
             VridgeTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -32,19 +36,19 @@ class LoginActivity : ComponentActivity() {
                         onTryLogin = { viewModel.tryGoogleLogin(signInLauncher) }
                     )
                 }
-            }
-        }
 
-        viewModel.isLoggedIn.observe(this) {
-            if (it.equals(true)) {
-                Log.d("USER Logged In", FirebaseAuthUtil.getCurrentUser()!!.email!!)
-                startActivity(Intent(applicationContext, MainActivity::class.java))
-                finish()
+                LaunchedEffect(key1 = isLoggedIn) {
+                    if (isLoggedIn) {
+                        Log.d("USER Logged In", FirebaseAuthUtil.getCurrentUser()!!.email!!)
+                        startActivity(Intent(applicationContext, MainActivity::class.java))
+                        finish()
+                    }
+                }
             }
         }
 
         if (FirebaseAuthUtil.getCurrentUser() != null) {
-            viewModel.isLoggedIn.postValue(true)
+            viewModel.emitLoginState(true)
         }
     }
 
