@@ -21,7 +21,7 @@ fun LoginView(onTryLogin: () -> Unit) {
     Column(
         modifier = modifier.padding(all = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
         LoginLogo(modifier = modifier)
         LoginButton(modifier = modifier, onTryLogin = onTryLogin)
@@ -33,14 +33,14 @@ fun LoginLogo(modifier: Modifier = Modifier) {
     Image(
         modifier = modifier.size(width = 200.dp, height = 200.dp),
         painter = painterResource(id = android.R.mipmap.sym_def_app_icon),
-        contentDescription = "Login Logo",
+        contentDescription = "Login Logo"
     )
 }
 
 @Composable
 fun LoginButton(
     modifier: Modifier = Modifier,
-    onTryLogin: () -> Unit,
+    onTryLogin: () -> Unit
 ) {
     Image(
         modifier =
@@ -48,6 +48,6 @@ fun LoginButton(
                 .fillMaxWidth(fraction = 0.5f)
                 .clickable { onTryLogin() },
         painter = painterResource(id = R.drawable.btn_signin_google),
-        contentDescription = "Sign in with Google",
+        contentDescription = "Sign in with Google"
     )
 }
