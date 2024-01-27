@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.gdsc_cau.vridge.R
 
 @Composable
-fun LoginView(onTryLogin: () -> Unit) {
+fun LoginScreen(onTryLogin: () -> Unit) {
     val modifier = Modifier
 
     Column(
