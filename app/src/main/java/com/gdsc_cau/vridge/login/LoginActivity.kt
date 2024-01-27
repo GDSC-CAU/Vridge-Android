@@ -26,10 +26,10 @@ class LoginActivity : ComponentActivity() {
             VridgeTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     LoginView(
-                        onTryLogin = { viewModel.tryGoogleLogin(signInLauncher) },
+                        onTryLogin = { viewModel.tryGoogleLogin(signInLauncher) }
                     )
                 }
             }
@@ -50,7 +50,7 @@ class LoginActivity : ComponentActivity() {
 
     private val signInLauncher =
         registerForActivityResult(
-            FirebaseAuthUIActivityResultContract(),
+            FirebaseAuthUIActivityResultContract()
         ) {
                 res ->
             viewModel.onSignInResult(res)
