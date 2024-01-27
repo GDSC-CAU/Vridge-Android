@@ -11,7 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.gdsc_cau.vridge.MainActivity
+import com.gdsc_cau.vridge.main.MainActivity
 import com.gdsc_cau.vridge.ui.theme.VridgeTheme
 import com.gdsc_cau.vridge.utils.FirebaseAuthUtil
 import dagger.hilt.android.AndroidEntryPoint
