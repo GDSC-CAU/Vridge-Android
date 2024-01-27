@@ -10,6 +10,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -22,6 +23,7 @@ import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -43,19 +45,14 @@ fun MainBottomBar(
         exit = fadeOut() + slideOut { IntOffset(0, it.height) }
     ) {
         Row(
-            modifier = Modifier
-                .navigationBarsPadding()
-                .padding(start = 8.dp, end = 8.dp, bottom = 24.dp)
-                .fillMaxWidth()
-                .height(56.dp)
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-                .background(
-                    color = MaterialTheme.colorScheme.background
-                )
-                .padding(24.dp),
+            modifier =
+                Modifier
+                    .navigationBarsPadding()
+                    .fillMaxWidth()
+                    .height(64.dp)
+                    .background(
+                        color = MaterialTheme.colorScheme.surface
+                    ),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
             tabs.forEach {
@@ -75,18 +72,20 @@ private fun RowScope.MainBottomBarItem(
     selected: Boolean,
     onTabSelected: () -> Unit
 ) {
-    Box(
-        modifier = Modifier
-            .weight(1f)
-            .fillMaxHeight()
-            .selectable(
-                selected = selected,
-                indication = null,
-                onClick = onTabSelected,
-                role = null,
-                interactionSource = remember { MutableInteractionSource() }
-            ),
-        contentAlignment = Alignment.Center
+    Column(
+        modifier =
+            Modifier
+                .weight(1f)
+                .fillMaxHeight()
+                .selectable(
+                    selected = selected,
+                    indication = null,
+                    onClick = onTabSelected,
+                    role = null,
+                    interactionSource = remember { MutableInteractionSource() }
+                ),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Icon(
             painter = painterResource(id = tab.iconResId),
@@ -99,5 +98,6 @@ private fun RowScope.MainBottomBarItem(
                 },
             modifier = Modifier.size(34.dp)
         )
+        Text(text = tab.name, style = MaterialTheme.typography.labelSmall)
     }
 }
