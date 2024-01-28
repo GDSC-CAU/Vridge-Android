@@ -3,7 +3,6 @@ package com.gdsc_cau.vridge.login
 import android.content.Intent
 import androidx.activity.ComponentActivity
 import androidx.activity.result.ActivityResultLauncher
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.firebase.ui.auth.data.model.FirebaseAuthUIAuthenticationResult
