@@ -6,11 +6,4 @@ data class User(
     val gender: Gender,
     val name: String,
     val uid: String,
-) {
-    enum class Gender {
-        MALE,
-        FEMALE,
-        NON_BINARY,
-        HIDDEN,
-    }
-}
+)
