@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.main
+package com.gdsc_cau.vridge.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

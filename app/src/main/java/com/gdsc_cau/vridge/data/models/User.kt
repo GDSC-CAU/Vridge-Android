@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.models
+package com.gdsc_cau.vridge.data.models
 
 data class User(
     val cntVoice: Int,

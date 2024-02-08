@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.record
+package com.gdsc_cau.vridge.ui.record
 
 import androidx.navigation.NavController
 

@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.main
+package com.gdsc_cau.vridge.ui.main
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row

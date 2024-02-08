@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.voicelist
+package com.gdsc_cau.vridge.ui.voicelist
 
 import androidx.navigation.NavController
 

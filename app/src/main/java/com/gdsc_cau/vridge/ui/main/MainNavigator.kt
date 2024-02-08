@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.main
+package com.gdsc_cau.vridge.ui.main
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -6,11 +6,11 @@ import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.gdsc_cau.vridge.profile.navigateProfile
-import com.gdsc_cau.vridge.record.navigateRecord
-import com.gdsc_cau.vridge.talk.navigateTalk
-import com.gdsc_cau.vridge.voicelist.VoiceListRoute
-import com.gdsc_cau.vridge.voicelist.navigateVoiceList
+import com.gdsc_cau.vridge.ui.profile.navigateProfile
+import com.gdsc_cau.vridge.ui.record.navigateRecord
+import com.gdsc_cau.vridge.ui.talk.navigateTalk
+import com.gdsc_cau.vridge.ui.voicelist.VoiceListRoute
+import com.gdsc_cau.vridge.ui.voicelist.navigateVoiceList
 
 class MainNavigator(
     val navController: NavHostController

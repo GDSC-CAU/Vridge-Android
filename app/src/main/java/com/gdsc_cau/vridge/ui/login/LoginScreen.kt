@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.login
+package com.gdsc_cau.vridge.ui.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.login
+package com.gdsc_cau.vridge.ui.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.firebase.ui.auth.FirebaseAuthUIActivityResultContract
-import com.gdsc_cau.vridge.main.MainActivity
+import com.gdsc_cau.vridge.ui.main.MainActivity
 import com.gdsc_cau.vridge.ui.theme.VridgeTheme
 import com.gdsc_cau.vridge.utils.FirebaseAuthUtil
 import dagger.hilt.android.AndroidEntryPoint

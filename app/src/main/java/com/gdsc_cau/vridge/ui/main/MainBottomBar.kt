@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.main
+package com.gdsc_cau.vridge.ui.main
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.keyframes

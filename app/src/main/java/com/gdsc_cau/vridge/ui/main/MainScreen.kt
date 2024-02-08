@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.main
+package com.gdsc_cau.vridge.ui.main
 
 import android.util.Log
 import androidx.compose.foundation.background
@@ -14,14 +14,14 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.gdsc_cau.vridge.profile.ProfileRoute
-import com.gdsc_cau.vridge.profile.ProfileScreen
-import com.gdsc_cau.vridge.record.RecordRoute
-import com.gdsc_cau.vridge.record.RecordScreen
-import com.gdsc_cau.vridge.talk.TalkRoute
-import com.gdsc_cau.vridge.talk.TalkScreen
-import com.gdsc_cau.vridge.voicelist.VoiceListRoute
-import com.gdsc_cau.vridge.voicelist.VoiceListScreen
+import com.gdsc_cau.vridge.ui.profile.ProfileRoute
+import com.gdsc_cau.vridge.ui.profile.ProfileScreen
+import com.gdsc_cau.vridge.ui.record.RecordRoute
+import com.gdsc_cau.vridge.ui.record.RecordScreen
+import com.gdsc_cau.vridge.ui.talk.TalkRoute
+import com.gdsc_cau.vridge.ui.talk.TalkScreen
+import com.gdsc_cau.vridge.ui.voicelist.VoiceListRoute
+import com.gdsc_cau.vridge.ui.voicelist.VoiceListScreen
 
 @Composable
 fun MainScreen(

@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.profile
+package com.gdsc_cau.vridge.ui.profile
 
 import androidx.navigation.NavController
 

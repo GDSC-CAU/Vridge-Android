@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.login
+package com.gdsc_cau.vridge.ui.login
 
 import android.content.Intent
 import androidx.activity.ComponentActivity

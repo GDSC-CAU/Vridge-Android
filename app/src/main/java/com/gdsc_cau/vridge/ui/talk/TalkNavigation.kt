@@ -1,4 +1,4 @@
-package com.gdsc_cau.vridge.talk
+package com.gdsc_cau.vridge.ui.talk
 
 import androidx.navigation.NavController
 
