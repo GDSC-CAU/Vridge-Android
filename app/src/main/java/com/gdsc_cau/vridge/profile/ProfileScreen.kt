@@ -27,7 +27,13 @@ fun ProfileScreen() {
 
 @Composable
 fun ProfileList(profileData: User) {
-    ProfileListItem(title = "Name", content = profileData.email, onClickFn = {})
+    Column {
+        ProfileListItem(title = "Name", content = profileData.name, onClickFn = {})
+        ProfileListItem(title = "Email", content = profileData.email, onClickFn = {})
+        ProfileListItem(title = "Synthesized Count", content = profileData.cntVoice.toString(), onClickFn = {})
+        ProfileListItem(title = "Sign Out", content = "Sign Out from Vridge Account", onClickFn = {})
+        ProfileListItem(title = "Delete Account", content = "Delete Account from Vridge Account", onClickFn = {})
+    }
 }
 
 @Composable
