@@ -10,9 +10,11 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.gdsc_cau.vridge.R
 import com.gdsc_cau.vridge.models.Gender
 import com.gdsc_cau.vridge.models.User
 import com.gdsc_cau.vridge.ui.theme.Grey3
@@ -38,15 +40,55 @@ fun ProfileList(profileData: User) {
             Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
-        ProfileListItem(title = "Name", content = profileData.name)
+        ProfileListItem(
+            title =
+                stringResource(
+                    id = R.string.profile_list_item_name
+                ),
+            content = profileData.name
+        )
         ProfileListDivider()
-        ProfileListItem(title = "Email", content = profileData.email, onClickFn = {})
+        ProfileListItem(
+            title =
+                stringResource(
+                    id = R.string.profile_list_item_email
+                ),
+            content = profileData.email
+        )
         ProfileListDivider()
-        ProfileListItem(title = "Synthesized Count", content = profileData.cntVoice.toString(), onClickFn = {})
+        ProfileListItem(
+            title =
+                stringResource(
+                    id = R.string.profile_list_item_synthesize_cnt
+                ),
+            content = profileData.cntVoice.toString()
+        )
         ProfileListDivider()
-        ProfileListItem(title = "Sign Out", content = "Sign Out from Vridge Account", onClickFn = {})
+        ProfileListItem(
+            title =
+                stringResource(
+                    id = R.string.profile_list_item_signout_title
+                ),
+            content =
+                stringResource(
+                    id = R.string.profile_list_item_signout_description
+                ),
+            onClickFn = {
+            }
+        )
         ProfileListDivider()
-        ProfileListItem(title = "Delete Account", content = "Delete Account from Vridge Account", onClickFn = {})
+        ProfileListItem(
+            title =
+                stringResource(
+                    id = R.string.profile_list_item_delete_title
+                ),
+            content =
+                stringResource(
+                    id = R.string.profile_list_item_delete_description
+                ),
+            onClickFn = {
+            }
+        )
     }
 }
 
