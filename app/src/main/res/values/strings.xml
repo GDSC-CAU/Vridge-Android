@@ -2,4 +2,12 @@
     <string name="app_name">Vridge</string>
 
     <string name="login_btn_signin">Sign-in with Google</string>
+
+    <string name="profile_list_item_email">Email</string>
+    <string name="profile_list_item_name">Name</string>
+    <string name="profile_list_item_synthesize_cnt">Synthesized Count</string>
+    <string name="profile_list_item_delete_description">Delete Account from Vridge Account</string>
+    <string name="profile_list_item_delete_title">Delete Account</string>
+    <string name="profile_list_item_signout_description">Sign Out from Vridge Account</string>
+    <string name="profile_list_item_signout_title">Sign Out</string>
 </resources>
