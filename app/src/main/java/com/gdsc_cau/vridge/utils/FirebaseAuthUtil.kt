@@ -30,4 +30,9 @@ object FirebaseAuthUtil {
                 .build()
         signInLauncher.launch(signInIntent)
     }
+
+    fun signOut() {
+        initFirebaseAuth()
+        auth.signOut()
+    }
 }
