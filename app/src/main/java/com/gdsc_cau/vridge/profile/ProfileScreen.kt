@@ -1,7 +1,9 @@
 package com.gdsc_cau.vridge.profile
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +29,11 @@ fun ProfileScreen() {
 
 @Composable
 fun ProfileList(profileData: User) {
-    Column {
+    Column(
+        modifier =
+            Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center
+    ) {
         ProfileListItem(title = "Name", content = profileData.name)
         ProfileListItem(title = "Email", content = profileData.email, onClickFn = {})
         ProfileListItem(title = "Synthesized Count", content = profileData.cntVoice.toString(), onClickFn = {})
