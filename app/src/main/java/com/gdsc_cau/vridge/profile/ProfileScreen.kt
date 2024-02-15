@@ -28,7 +28,7 @@ fun ProfileScreen() {
 @Composable
 fun ProfileList(profileData: User) {
     Column {
-        ProfileListItem(title = "Name", content = profileData.name, onClickFn = {})
+        ProfileListItem(title = "Name", content = profileData.name)
         ProfileListItem(title = "Email", content = profileData.email, onClickFn = {})
         ProfileListItem(title = "Synthesized Count", content = profileData.cntVoice.toString(), onClickFn = {})
         ProfileListItem(title = "Sign Out", content = "Sign Out from Vridge Account", onClickFn = {})
@@ -40,12 +40,12 @@ fun ProfileList(profileData: User) {
 fun ProfileListItem(
     title: String,
     content: String,
-    onClickFn: () -> Unit
+    onClickFn: (() -> Unit)? = null
 ) {
     Column(
         modifier =
             Modifier
-                .clickable { onClickFn() }
+                .clickable { onClickFn?.invoke() }
                 .fillMaxWidth()
     ) {
         Text(
