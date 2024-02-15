@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -35,11 +36,20 @@ fun ProfileList(profileData: User) {
         verticalArrangement = Arrangement.Center
     ) {
         ProfileListItem(title = "Name", content = profileData.name)
+        ProfileListDivider()
         ProfileListItem(title = "Email", content = profileData.email, onClickFn = {})
+        ProfileListDivider()
         ProfileListItem(title = "Synthesized Count", content = profileData.cntVoice.toString(), onClickFn = {})
+        ProfileListDivider()
         ProfileListItem(title = "Sign Out", content = "Sign Out from Vridge Account", onClickFn = {})
+        ProfileListDivider()
         ProfileListItem(title = "Delete Account", content = "Delete Account from Vridge Account", onClickFn = {})
     }
+}
+
+@Composable
+fun ProfileListDivider() {
+    Divider()
 }
 
 @Composable
