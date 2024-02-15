@@ -31,6 +31,11 @@ object FirebaseAuthUtil {
         signInLauncher.launch(signInIntent)
     }
 
+    fun deleteUser() {
+        initFirebaseAuth()
+        getCurrentUser()!!.delete()
+    }
+
     fun signOut() {
         initFirebaseAuth()
         auth.signOut()
