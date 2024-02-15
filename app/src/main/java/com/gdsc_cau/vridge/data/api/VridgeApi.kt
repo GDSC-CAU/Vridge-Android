@@ -10,26 +10,26 @@ import retrofit2.http.POST
 interface VridgeApi {
     @POST("/api/v1/user/login")
     suspend fun login(
-        @Body json:JsonObject
+        @Body json: JsonObject
     ): ApiResponse
 
     @GET("api/v1/voice/list")
     suspend fun getVoiceList(
-        @Body json:JsonObject
+        @Body json: JsonObject
     ): VoiceListDto
 
     @POST("api/v1/voice/upload")
     suspend fun uploadTrainingVoice(
-        @Body json:JsonObject
+        @Body json: JsonObject
     ): String
 
     @POST("api/v1/voice/synthesize")
     suspend fun synthesizeVoice(
-        @Body json:JsonObject
+        @Body json: JsonObject
     ): String
 
     @POST("api/v1/voice/create")
     suspend fun createTts(
-        @Body json:JsonObject
+        @Body json: JsonObject
     ): ApiResponse
 }
