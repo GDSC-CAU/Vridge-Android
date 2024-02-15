@@ -13,6 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.gdsc_cau.vridge.models.Gender
 import com.gdsc_cau.vridge.models.User
+import com.gdsc_cau.vridge.ui.theme.Grey3
 
 val profileDummy =
     User(
@@ -49,7 +50,9 @@ fun ProfileList(profileData: User) {
 
 @Composable
 fun ProfileListDivider() {
-    Divider()
+    Divider(
+        color = Grey3
+    )
 }
 
 @Composable
