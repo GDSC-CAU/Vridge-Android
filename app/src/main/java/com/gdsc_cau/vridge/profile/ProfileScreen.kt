@@ -45,7 +45,8 @@ fun ProfileList(profileData: User) {
                 stringResource(
                     id = R.string.profile_list_item_name
                 ),
-            content = profileData.name
+            content = profileData.name,
+            onClickFn = {}
         )
         ProfileListDivider()
         ProfileListItem(
@@ -53,7 +54,8 @@ fun ProfileList(profileData: User) {
                 stringResource(
                     id = R.string.profile_list_item_email
                 ),
-            content = profileData.email
+            content = profileData.email,
+            onClickFn = {}
         )
         ProfileListDivider()
         ProfileListItem(
@@ -61,7 +63,8 @@ fun ProfileList(profileData: User) {
                 stringResource(
                     id = R.string.profile_list_item_synthesize_cnt
                 ),
-            content = profileData.cntVoice.toString()
+            content = profileData.cntVoice.toString(),
+            onClickFn = {}
         )
         ProfileListDivider()
         ProfileListItem(
@@ -74,6 +77,7 @@ fun ProfileList(profileData: User) {
                     id = R.string.profile_list_item_signout_description
                 ),
             onClickFn = {
+                // TODO: Call Sign-Out Function
             }
         )
         ProfileListDivider()
@@ -87,6 +91,7 @@ fun ProfileList(profileData: User) {
                     id = R.string.profile_list_item_delete_description
                 ),
             onClickFn = {
+                // TODO: Call Delete-Account Function
             }
         )
     }
@@ -103,12 +108,12 @@ fun ProfileListDivider() {
 fun ProfileListItem(
     title: String,
     content: String,
-    onClickFn: (() -> Unit)? = null
+    onClickFn: () -> Unit
 ) {
     Column(
         modifier =
             Modifier
-                .clickable { onClickFn?.invoke() }
+                .clickable { onClickFn.invoke() }
                 .fillMaxWidth()
                 .padding(all = 15.dp)
     ) {
