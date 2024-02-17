@@ -61,7 +61,9 @@ fun TalkScreen(
     sessionId: String
 ) {
     TalkHistory()
-    TalkInput(onSendClicked = {})
+    TalkInput(onSendClicked = {
+        // TODO: Send Talk to API
+    })
 }
 
 @Composable
