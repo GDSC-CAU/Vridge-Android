@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -33,7 +32,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.gdsc_cau.vridge.R
 import com.gdsc_cau.vridge.ui.theme.Black
 import com.gdsc_cau.vridge.ui.theme.Grey3
 import com.gdsc_cau.vridge.ui.theme.PrimaryUpperLight
@@ -117,8 +118,9 @@ private fun TextCardController(voiceState: VoiceState) {
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .background(
-                if(voiceState == VoiceState.VOICE_LOADING) Grey3
-                else PrimaryUpperLight)
+                if (voiceState == VoiceState.VOICE_LOADING) Grey3
+                else PrimaryUpperLight
+            )
             .fillMaxHeight()
             .width(50.dp)
             .clickable {
@@ -126,12 +128,14 @@ private fun TextCardController(voiceState: VoiceState) {
             }
     ) {
         Icon(
-            imageVector =
-                when (voiceState) {
-                    VoiceState.VOICE_LOADING -> Icons.Filled.PlayArrow
-                    VoiceState.VOICE_PLAYING -> Icons.Filled.PlayArrow
-                    else -> Icons.Filled.PlayArrow
-                },
+            painter =
+                painterResource(
+                    when (voiceState) {
+                        VoiceState.VOICE_LOADING -> R.drawable.ic_downloading
+                        VoiceState.VOICE_PLAYING -> R.drawable.ic_play_stop
+                        else -> R.drawable.ic_play_arrow
+                    },
+                ),
             contentDescription = "Play Button"
         )
     }
