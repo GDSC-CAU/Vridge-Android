@@ -30,6 +30,8 @@ import com.gdsc_cau.vridge.ui.theme.Grey4
 import com.gdsc_cau.vridge.ui.theme.Primary
 import com.gdsc_cau.vridge.ui.theme.White
 
+private var recordingStatus = false
+
 @Composable
 fun RecordScreen() {
     Column(
@@ -127,7 +129,10 @@ fun RecordButton() {
             }
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_mic),
+                painter = painterResource(
+                    id = if(recordingStatus) R.drawable.ic_recording
+                    else R.drawable.ic_mic
+                ),
                 contentDescription = "Record Button"
             )
         }
@@ -141,7 +146,7 @@ fun RecordNavigator() {
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        RecordNavigateButton(text = "Record") {
+        RecordNavigateButton(text = "Play") {
             // TODO: Play Recorded
         }
         RecordNavigateButton(text = "Next") {
