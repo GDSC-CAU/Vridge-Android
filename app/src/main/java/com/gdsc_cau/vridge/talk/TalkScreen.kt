@@ -51,8 +51,7 @@ fun TalkScreen(
 @Composable
 fun TalkHistory() {
     Column(
-        modifier =
-        Modifier
+        modifier = Modifier
             .fillMaxSize()
             .padding(bottom = 75.dp)
             .verticalScroll(ScrollState(Int.MAX_VALUE)),
@@ -85,15 +84,13 @@ private fun TalkCard(talkData: String, talkState: VoiceState) {
             CardDefaults.cardElevation(
                 defaultElevation = 8.dp
             ),
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(all = 15.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(all = 15.dp)
     ) {
         Text(
-            modifier =
-                Modifier
-                    .padding(all = 15.dp),
+            modifier = Modifier
+                .padding(all = 15.dp),
             text = talkData
         )
     }
@@ -112,10 +109,9 @@ fun TalkInput(onClicked: () -> Unit) {
         verticalAlignment = Alignment.Bottom
     ) {
         BasicTextField(
-            modifier =
-                Modifier
-                    .height(60.dp)
-                    .weight(1f),
+            modifier = Modifier
+                .height(60.dp)
+                .weight(1f),
             value = data,
             onValueChange = { input ->
                 data = input
@@ -135,8 +131,7 @@ fun TalkInput(onClicked: () -> Unit) {
                     containerColor = Grey3,
                     contentColor = Black
                 ),
-                modifier =
-                Modifier
+                modifier = Modifier
                     .height(50.dp)
                     .width(50.dp),
                 onClick = onClicked
@@ -162,11 +157,10 @@ fun TalkInputDecor(innerTextField: @Composable () -> Unit) {
                     containerColor = White,
                     contentColor = Black
                 ),
-            modifier =
-                Modifier
-                    .background(White)
-                    .fillMaxSize()
-                    .padding(all = 5.dp)
+            modifier = Modifier
+                .background(White)
+                .fillMaxSize()
+                .padding(all = 5.dp)
         ) {
             Box(
                 contentAlignment = Alignment.CenterStart,
