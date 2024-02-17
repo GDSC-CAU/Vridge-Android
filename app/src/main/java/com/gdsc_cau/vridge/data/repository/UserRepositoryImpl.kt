@@ -24,6 +24,18 @@ class UserRepositoryImpl
             return result.isSuccess
         }
 
+        override suspend fun unregister(uid: String): Boolean {
+            val data =
+                JsonObject(
+                    mapOf(
+                        "uid" to JsonPrimitive(uid)
+                    )
+                )
+
+            val result = api.unregister(data)
+            return result.isSuccess
+        }
+
         override suspend fun getUser(uid: String): User {
             return database.getUser(uid)
         }
