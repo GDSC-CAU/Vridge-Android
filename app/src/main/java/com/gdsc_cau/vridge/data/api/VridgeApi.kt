@@ -13,6 +13,11 @@ interface VridgeApi {
         @Body json: JsonObject
     ): ApiResponse
 
+    @POST("/api/v1/user/unregister")
+    suspend fun unregister(
+        @Body json: JsonObject
+    ): ApiResponse
+
     @GET("api/v1/voice/list")
     suspend fun getVoiceList(
         @Body json: JsonObject
