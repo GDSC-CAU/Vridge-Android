@@ -1,9 +1,9 @@
 package com.gdsc_cau.vridge.talk
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.CardDefaults
@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 private enum class VoiceState {
@@ -37,12 +38,12 @@ fun TalkCard() {
     ElevatedCard(
         elevation =
             CardDefaults.cardElevation(
-                defaultElevation = 6.dp
+                defaultElevation = 8.dp
             ),
         modifier =
             Modifier
                 .fillMaxWidth()
-                .height(40.dp)
+                .background(color = Color.White)
     ) {
         Text(text = "Talk Card")
     }
