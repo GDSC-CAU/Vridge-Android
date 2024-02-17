@@ -209,7 +209,7 @@ fun TalkInputDecor(innerTextField: @Composable () -> Unit) {
                 contentAlignment = Alignment.CenterStart,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(start = 10.dp, end = 10.dp, top = 5.dp, bottom = 5.dp),
+                    .padding(horizontal = 10.dp, vertical = 5.dp),
             ) {
                 innerTextField()
             }
