@@ -1,5 +1,6 @@
 package com.gdsc_cau.vridge.voicelist
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material3.Button
 import androidx.compose.runtime.Composable
@@ -11,7 +12,13 @@ fun VoiceListScreen(
     onRecordClick: () -> Unit,
     onVoiceClick: (String) -> Unit
 ) {
-    Button(onClick = { onVoiceClick("1") }) {
-        Greeting(name = "VoiceListScreen")
+    Column {
+        Button(onClick = { onVoiceClick("1") }) {
+            Greeting(name = "VoiceListScreen")
+        }
+
+        Button(onClick = { onRecordClick() }) {
+            Greeting(name = "RecordScreen")
+        }
     }
 }
