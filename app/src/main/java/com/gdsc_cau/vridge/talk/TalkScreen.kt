@@ -3,6 +3,7 @@ package com.gdsc_cau.vridge.talk
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -124,9 +125,8 @@ fun TalkInput(onClicked: () -> Unit) {
         IconButton(
             modifier =
                 Modifier
-                    .height(45.dp)
-                    .padding(all = 5.dp)
-                    .width(45.dp),
+                    .height(50.dp)
+                    .width(50.dp),
             onClick = onClicked
         ) {
             Icon(
@@ -154,7 +154,14 @@ fun TalkInputDecor(innerTextField: @Composable () -> Unit) {
                     .fillMaxSize()
                     .padding(all = 5.dp)
         ) {
-            innerTextField()
+            Box(
+                contentAlignment = Alignment.CenterStart,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 5.dp),
+            ) {
+                innerTextField()
+            }
         }
     }
 }
