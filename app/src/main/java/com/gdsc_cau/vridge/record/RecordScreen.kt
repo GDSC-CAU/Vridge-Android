@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gdsc_cau.vridge.R
@@ -146,10 +147,10 @@ fun RecordNavigator() {
         modifier = Modifier
             .fillMaxWidth()
     ) {
-        RecordNavigateButton(text = "Play") {
+        RecordNavigateButton(text = stringResource(id = R.string.record_btn_play)) {
             // TODO: Play Recorded
         }
-        RecordNavigateButton(text = "Next") {
+        RecordNavigateButton(text = stringResource(id = R.string.record_btn_next)) {
             // TODO: Next Record
         }
     }
