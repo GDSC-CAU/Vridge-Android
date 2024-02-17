@@ -1,6 +1,5 @@
 package com.gdsc_cau.vridge.talk
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -37,13 +36,17 @@ fun TalkScreen(
 @Composable
 fun TalkCard() {
     ElevatedCard(
+        colors =
+            CardDefaults.cardColors(
+                containerColor = Color.White,
+                contentColor = Color.Black
+            ),
         elevation =
             CardDefaults.cardElevation(
                 defaultElevation = 8.dp
             ),
         modifier =
             Modifier
-                .background(color = Color.White)
                 .fillMaxWidth()
                 .padding(all = 15.dp)
     ) {
