@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.CardDefaults
@@ -42,10 +43,16 @@ fun TalkCard() {
             ),
         modifier =
             Modifier
-                .fillMaxWidth()
                 .background(color = Color.White)
+                .fillMaxWidth()
+                .padding(all = 15.dp)
     ) {
-        Text(text = "Talk Card")
+        Text(
+            modifier =
+                Modifier
+                    .padding(all = 15.dp),
+            text = "This is Talk Card Content"
+        )
     }
 }
 
