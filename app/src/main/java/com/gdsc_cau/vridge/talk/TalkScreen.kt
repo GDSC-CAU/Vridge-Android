@@ -48,21 +48,23 @@ fun TalkHistory() {
                 .verticalScroll(ScrollState(Int.MAX_VALUE)),
         verticalArrangement = Arrangement.Bottom
     ) {
-        TalkCard()
-        TalkCard()
-        TalkCard()
-        TalkCard()
-        TalkCard()
-        TalkCard()
-        TalkCard()
-        TalkCard()
-        TalkCard()
-        TalkCard()
+        TalkCard(
+            talkData = "This is Talk Card Content\nContent Ready",
+            talkState = VoiceState.VOICE_READY
+        )
+        TalkCard(
+            talkData = "This is Talk Card Content\nContent Playing",
+            talkState = VoiceState.VOICE_PLAYING
+        )
+        TalkCard(
+            talkData = "This is Talk Card Content\nContent Loading",
+            talkState = VoiceState.VOICE_LOADING
+        )
     }
 }
 
 @Composable
-fun TalkCard() {
+private fun TalkCard(talkData: String, talkState: VoiceState) {
     ElevatedCard(
         colors =
             CardDefaults.cardColors(
@@ -82,7 +84,7 @@ fun TalkCard() {
             modifier =
                 Modifier
                     .padding(all = 15.dp),
-            text = "This is Talk Card Content\nThis is Talk Card Content"
+            text = talkData
         )
     }
 }
