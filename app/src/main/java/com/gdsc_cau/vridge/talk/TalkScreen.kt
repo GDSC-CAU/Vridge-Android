@@ -19,6 +19,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,9 +29,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.gdsc_cau.vridge.ui.theme.Black
+import com.gdsc_cau.vridge.ui.theme.Grey3
 import com.gdsc_cau.vridge.ui.theme.White
 
 private enum class VoiceState {
@@ -39,10 +40,9 @@ private enum class VoiceState {
     VOICE_READY
 }
 
-@Preview
 @Composable
 fun TalkScreen(
-//    sessionId: String
+    sessionId: String
 ) {
     TalkHistory()
     TalkInput {}
@@ -52,10 +52,10 @@ fun TalkScreen(
 fun TalkHistory() {
     Column(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(bottom = 55.dp)
-                .verticalScroll(ScrollState(Int.MAX_VALUE)),
+        Modifier
+            .fillMaxSize()
+            .padding(bottom = 75.dp)
+            .verticalScroll(ScrollState(Int.MAX_VALUE)),
         verticalArrangement = Arrangement.Bottom
     ) {
         TalkCard(
@@ -114,7 +114,7 @@ fun TalkInput(onClicked: () -> Unit) {
         BasicTextField(
             modifier =
                 Modifier
-                    .height(50.dp)
+                    .height(60.dp)
                     .weight(1f),
             value = data,
             onValueChange = { input ->
@@ -124,18 +124,30 @@ fun TalkInput(onClicked: () -> Unit) {
                 TalkInputDecor(innerTextField)
             }
         )
-        IconButton(
-            modifier =
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier
+                .height(60.dp)
+                .width(60.dp)
+        ) {
+            IconButton(
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = Grey3,
+                    contentColor = Black
+                ),
+                modifier =
                 Modifier
                     .height(50.dp)
                     .width(50.dp),
-            onClick = onClicked
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Send,
-                contentDescription = "Send Button"
-            )
+                onClick = onClicked
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Send,
+                    contentDescription = "Send Button"
+                )
+            }
         }
+
     }
 }
 
@@ -160,7 +172,7 @@ fun TalkInputDecor(innerTextField: @Composable () -> Unit) {
                 contentAlignment = Alignment.CenterStart,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(all = 5.dp),
+                    .padding(start = 10.dp, end = 10.dp, top = 5.dp, bottom = 5.dp),
             ) {
                 innerTextField()
             }
