@@ -44,6 +44,18 @@ private enum class VoiceState {
     VOICE_READY
 }
 
+private val dummyTalkTextData: Array<String> = arrayOf(
+    "This is Talk Card Content\nThis is Talk Card Content\nThis is Talk Card Content\nContent Ready",
+    "This is Talk Card Content\nThis is Talk Card Content\nContent Playing",
+    "This is Talk Card Content\nContent Loading"
+)
+
+private val dummyTalkStateData: Array<VoiceState> = arrayOf(
+    VoiceState.VOICE_READY,
+    VoiceState.VOICE_PLAYING,
+    VoiceState.VOICE_LOADING
+)
+
 @Composable
 fun TalkScreen(
     sessionId: String
@@ -61,18 +73,12 @@ fun TalkHistory() {
             .verticalScroll(ScrollState(Int.MAX_VALUE)),
         verticalArrangement = Arrangement.Bottom
     ) {
-        TalkCard(
-            talkData = "This is Talk Card Content\nThis is Talk Card Content\nThis is Talk Card Content\nContent Ready",
-            voiceState = VoiceState.VOICE_READY
-        )
-        TalkCard(
-            talkData = "This is Talk Card Content\nThis is Talk Card Content\nContent Playing",
-            voiceState = VoiceState.VOICE_PLAYING
-        )
-        TalkCard(
-            talkData = "This is Talk Card Content\nContent Loading",
-            voiceState = VoiceState.VOICE_LOADING
-        )
+        TalkCard(talkData = dummyTalkTextData[0], voiceState = dummyTalkStateData[0])
+        TalkCard(talkData = dummyTalkTextData[1], voiceState = dummyTalkStateData[1])
+        TalkCard(talkData = dummyTalkTextData[2], voiceState = dummyTalkStateData[2])
+        TalkCard(talkData = dummyTalkTextData[0], voiceState = dummyTalkStateData[0])
+        TalkCard(talkData = dummyTalkTextData[1], voiceState = dummyTalkStateData[1])
+        TalkCard(talkData = dummyTalkTextData[2], voiceState = dummyTalkStateData[2])
     }
 }
 
