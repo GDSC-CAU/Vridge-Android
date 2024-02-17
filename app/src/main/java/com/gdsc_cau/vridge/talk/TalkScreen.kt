@@ -58,11 +58,11 @@ fun TalkHistory() {
         verticalArrangement = Arrangement.Bottom
     ) {
         TalkCard(
-            talkData = "This is Talk Card Content\nContent Ready",
+            talkData = "This is Talk Card Content\nThis is Talk Card Content\nThis is Talk Card Content\nContent Ready",
             talkState = VoiceState.VOICE_READY
         )
         TalkCard(
-            talkData = "This is Talk Card Content\nContent Playing",
+            talkData = "This is Talk Card Content\nThis is Talk Card Content\nContent Playing",
             talkState = VoiceState.VOICE_PLAYING
         )
         TalkCard(
