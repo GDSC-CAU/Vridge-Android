@@ -8,6 +8,7 @@ import com.gdsc_cau.vridge.main.Greeting
 @Composable
 fun VoiceListScreen(
     padding: PaddingValues,
+    onRecordClick: () -> Unit,
     onVoiceClick: (String) -> Unit
 ) {
     Button(onClick = { onVoiceClick("1") }) {
