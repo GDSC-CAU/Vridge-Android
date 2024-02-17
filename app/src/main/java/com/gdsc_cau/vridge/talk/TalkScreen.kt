@@ -49,7 +49,7 @@ fun TalkScreen(
     sessionId: String
 ) {
     TalkHistory()
-    TalkInput {}
+    TalkInput(onSendClicked = {})
 }
 
 @Composable
@@ -140,7 +140,7 @@ private fun TextCardController(voiceState: VoiceState) {
 }
 
 @Composable
-fun TalkInput(onClicked: () -> Unit) {
+fun TalkInput(onSendClicked: () -> Unit) {
     var data by remember {
         mutableStateOf("")
     }
@@ -177,7 +177,7 @@ fun TalkInput(onClicked: () -> Unit) {
                 modifier = Modifier
                     .height(50.dp)
                     .width(50.dp),
-                onClick = onClicked
+                onClick = onSendClicked
             ) {
                 Icon(
                     painterResource(R.drawable.ic_send),
