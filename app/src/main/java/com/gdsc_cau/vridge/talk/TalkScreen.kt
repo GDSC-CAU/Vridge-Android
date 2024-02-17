@@ -2,10 +2,13 @@ package com.gdsc_cau.vridge.talk
 
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -32,6 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.gdsc_cau.vridge.ui.theme.Black
 import com.gdsc_cau.vridge.ui.theme.Grey3
+import com.gdsc_cau.vridge.ui.theme.PrimaryUpperLight
 import com.gdsc_cau.vridge.ui.theme.White
 
 private enum class VoiceState {
@@ -59,21 +64,21 @@ fun TalkHistory() {
     ) {
         TalkCard(
             talkData = "This is Talk Card Content\nThis is Talk Card Content\nThis is Talk Card Content\nContent Ready",
-            talkState = VoiceState.VOICE_READY
+            voiceState = VoiceState.VOICE_READY
         )
         TalkCard(
             talkData = "This is Talk Card Content\nThis is Talk Card Content\nContent Playing",
-            talkState = VoiceState.VOICE_PLAYING
+            voiceState = VoiceState.VOICE_PLAYING
         )
         TalkCard(
             talkData = "This is Talk Card Content\nContent Loading",
-            talkState = VoiceState.VOICE_LOADING
+            voiceState = VoiceState.VOICE_LOADING
         )
     }
 }
 
 @Composable
-private fun TalkCard(talkData: String, talkState: VoiceState) {
+private fun TalkCard(talkData: String, voiceState: VoiceState) {
     ElevatedCard(
         colors =
             CardDefaults.cardColors(
@@ -86,12 +91,48 @@ private fun TalkCard(talkData: String, talkState: VoiceState) {
             ),
         modifier = Modifier
             .fillMaxWidth()
+            .height(IntrinsicSize.Min)
             .padding(all = 15.dp)
     ) {
-        Text(
+        Row(
             modifier = Modifier
-                .padding(all = 15.dp),
-            text = talkData
+                .fillMaxWidth()
+        ) {
+            Box(
+                modifier = Modifier
+                    .padding(all = 15.dp)
+                    .weight(1f),
+            ) {
+                Text(text = talkData)
+            }
+            TextCardController(voiceState = voiceState)
+        }
+    }
+}
+
+@Composable
+private fun TextCardController(voiceState: VoiceState) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier
+            .background(
+                if(voiceState == VoiceState.VOICE_LOADING) Grey3
+                else PrimaryUpperLight)
+            .fillMaxHeight()
+            .width(50.dp)
+            .clickable {
+                // TODO: Call Control Function
+            }
+    ) {
+        Icon(
+            imageVector =
+                when (voiceState) {
+                    VoiceState.VOICE_LOADING -> Icons.Filled.PlayArrow
+                    VoiceState.VOICE_PLAYING -> Icons.Filled.PlayArrow
+                    else -> Icons.Filled.PlayArrow
+                },
+            contentDescription = "Play Button"
         )
     }
 }
