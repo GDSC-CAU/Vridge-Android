@@ -16,8 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Send
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -182,7 +180,7 @@ fun TalkInput(onClicked: () -> Unit) {
                 onClick = onClicked
             ) {
                 Icon(
-                    imageVector = Icons.Filled.Send,
+                    painterResource(R.drawable.ic_send),
                     contentDescription = "Send Button"
                 )
             }
