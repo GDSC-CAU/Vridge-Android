@@ -48,7 +48,7 @@ fun TalkHistory() {
         modifier =
             Modifier
                 .fillMaxSize()
-                .padding(bottom = 60.dp)
+                .padding(bottom = 45.dp)
                 .verticalScroll(ScrollState(Int.MAX_VALUE)),
         verticalArrangement = Arrangement.Bottom
     ) {
