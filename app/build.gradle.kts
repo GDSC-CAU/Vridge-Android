@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -6,6 +9,9 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
 }
+
+var properties = Properties()
+properties.load(FileInputStream("local.properties"))
 
 android {
     namespace = "com.gdsc_cau.vridge"
@@ -22,6 +28,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "SERVER_URL", properties.getProperty("server.url"))
     }
 
     buildTypes {
@@ -42,6 +50,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
