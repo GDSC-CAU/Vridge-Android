@@ -15,8 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gdsc_cau.vridge.R
-import com.gdsc_cau.vridge.models.Gender
-import com.gdsc_cau.vridge.models.User
+import com.gdsc_cau.vridge.data.models.Gender
+import com.gdsc_cau.vridge.data.models.User
 import com.gdsc_cau.vridge.ui.theme.Grey3
 
 val profileDummy =
