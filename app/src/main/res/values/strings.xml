@@ -10,4 +10,7 @@
     <string name="profile_list_item_delete_title">Delete Account</string>
     <string name="profile_list_item_signout_description">Sign Out from Vridge Account</string>
     <string name="profile_list_item_signout_title">Sign Out</string>
+
+    <string name="record_btn_next">Next</string>
+    <string name="record_btn_play">Play</string>
 </resources>
