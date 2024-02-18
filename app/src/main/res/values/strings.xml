@@ -2,4 +2,8 @@
     <string name="app_name">Vridge</string>
 
     <string name="login_btn_signin">Sign-in with Google</string>
+
+    <string name="empty_voice_list">There is no voice in our app.</string>
+
+    <string name="btn_add_voice">Make Your Voice</string>
 </resources>
