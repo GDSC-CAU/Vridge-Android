@@ -1,5 +1,6 @@
 package com.gdsc_cau.vridge.ui.voicelist
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,8 +37,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.gdsc_cau.vridge.R
-import com.gdsc_cau.vridge.models.Gender
-import com.gdsc_cau.vridge.models.Voice
+import com.gdsc_cau.vridge.data.models.Gender
+import com.gdsc_cau.vridge.data.models.Voice
 import com.gdsc_cau.vridge.ui.theme.OnPrimaryLight
 import com.gdsc_cau.vridge.ui.theme.Primary
 import com.gdsc_cau.vridge.ui.theme.White
@@ -119,16 +120,19 @@ fun GridVoiceList(voices: List<Voice>, onRecordClick: () -> Unit, onVoiceClick: 
                     voices[index],
                     inSelectionMode.value,
                     selected,
-                    onVoiceClick,
                     Modifier.clickable {
-                        selectedIds.value =
-                            if (selected) {
-                                selectedIds.value.minus(voices[index].id)
-                            } else if (selectedIds.value.size < 2) {
-                                selectedIds.value.plus(voices[index].id)
-                            } else {
-                                selectedIds.value
-                            }
+                        if (inSelectionMode.value) {
+                            selectedIds.value =
+                                if (selected) {
+                                    selectedIds.value.minus(voices[index].id)
+                                } else if (selectedIds.value.size < 2) {
+                                    selectedIds.value.plus(voices[index].id)
+                                } else {
+                                    selectedIds.value
+                                }
+                        } else {
+                            onVoiceClick(voices[index])
+                        }
                     }
                 )
             }
@@ -186,23 +190,16 @@ fun GridVoiceList(voices: List<Voice>, onRecordClick: () -> Unit, onVoiceClick: 
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VoiceListItem(
     voice: Voice,
     inSelectionMode: Boolean,
     selected: Boolean,
-    onVoiceClick: (Voice) -> Unit,
     modifier: Modifier
 ) {
     Card(
-        onClick = {
-            if (inSelectionMode.not()) {
-                onVoiceClick(voice)
-            }
-        },
         modifier =
-            Modifier
+            modifier
                 .padding(8.dp)
                 .aspectRatio(1f),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp, pressedElevation = 2.dp)
