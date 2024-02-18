@@ -44,7 +44,8 @@ fun MainScreen(
                     composable(VoiceListRoute.route) {
                         VoiceListScreen(
                             padding = padding,
-                            onVoiceClick = { navigator.navigateTalk(it.id) }
+                            onVoiceClick = { navigator.navigateTalk(it.id) },
+                            onRecordClick = { navigator.navigateRecord() }
                         )
                     }
                     composable(RecordRoute.route) {
@@ -71,7 +72,7 @@ fun MainScreen(
         },
         topBar = {
             MainTopBar(
-                title = navigator.currentTab?.title ?: "",
+                title = navigator.currentTab?.title ?: ""
             )
         },
         bottomBar = {
