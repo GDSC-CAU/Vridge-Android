@@ -14,82 +14,53 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gdsc_cau.vridge.R
-import com.gdsc_cau.vridge.data.models.Gender
 import com.gdsc_cau.vridge.data.models.User
 import com.gdsc_cau.vridge.ui.theme.Grey3
 
-val profileDummy =
-    User(
-        cntVoice = 0,
-        email = "hello_vridge@gmail.com",
-        gender = Gender.MALE,
-        name = "Vridge Test User",
-        uid = "VRIDGE_TEST_USER_UID"
-    )
-
 @Composable
-fun ProfileScreen() {
-    ProfileList(profileData = profileDummy)
+fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
+    val user = viewModel.user.collectAsStateWithLifecycle().value
+    ProfileList(profileData = user)
 }
 
 @Composable
 fun ProfileList(profileData: User) {
     Column(
-        modifier =
-            Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
         ProfileListItem(
-            title =
-                stringResource(
-                    id = R.string.profile_list_item_name
-                ),
+            title = stringResource(id = R.string.profile_list_item_name),
             content = profileData.name,
             onClickFn = {}
         )
         ProfileListDivider()
         ProfileListItem(
-            title =
-                stringResource(
-                    id = R.string.profile_list_item_email
-                ),
+            title = stringResource(id = R.string.profile_list_item_email),
             content = profileData.email,
             onClickFn = {}
         )
         ProfileListDivider()
         ProfileListItem(
-            title =
-                stringResource(
-                    id = R.string.profile_list_item_synthesize_cnt
-                ),
+            title = stringResource(id = R.string.profile_list_item_synthesize_cnt),
             content = profileData.cntVoice.toString(),
             onClickFn = {}
         )
         ProfileListDivider()
         ProfileListItem(
-            title =
-                stringResource(
-                    id = R.string.profile_list_item_signout_title
-                ),
-            content =
-                stringResource(
-                    id = R.string.profile_list_item_signout_description
-                ),
+            title = stringResource(id = R.string.profile_list_item_signout_title),
+            content = stringResource(id = R.string.profile_list_item_signout_description),
             onClickFn = {
                 // TODO: Call Sign-Out Function
             }
         )
         ProfileListDivider()
         ProfileListItem(
-            title =
-                stringResource(
-                    id = R.string.profile_list_item_delete_title
-                ),
-            content =
-                stringResource(
-                    id = R.string.profile_list_item_delete_description
-                ),
+            title = stringResource(id = R.string.profile_list_item_delete_title),
+            content = stringResource(id = R.string.profile_list_item_delete_description),
             onClickFn = {
                 // TODO: Call Delete-Account Function
             }
@@ -111,11 +82,10 @@ fun ProfileListItem(
     onClickFn: () -> Unit
 ) {
     Column(
-        modifier =
-            Modifier
-                .clickable { onClickFn.invoke() }
-                .fillMaxWidth()
-                .padding(all = 15.dp)
+        modifier = Modifier
+            .clickable { onClickFn.invoke() }
+            .fillMaxWidth()
+            .padding(all = 15.dp)
     ) {
         Text(
             text = title,
