@@ -1,6 +1,7 @@
 package com.gdsc_cau.vridge.data.di
 
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.StorageReference
@@ -14,6 +15,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object FirebaseModule {
+    @Singleton
+    @Provides
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
     @Singleton
     @Provides
     fun provideFireStore(): FirebaseFirestore = Firebase.firestore
