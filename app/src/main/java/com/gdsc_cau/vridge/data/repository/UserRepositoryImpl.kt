@@ -47,6 +47,10 @@ class UserRepositoryImpl
             auth.signOut()
         }
 
+        override fun getUid(): String {
+            return auth.currentUser?.uid ?: ""
+        }
+
         override suspend fun getUserInfo(uid: String): User {
             return database.getUser(uid)
         }
