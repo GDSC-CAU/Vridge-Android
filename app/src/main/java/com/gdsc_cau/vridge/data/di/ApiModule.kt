@@ -1,5 +1,6 @@
 package com.gdsc_cau.vridge.data.di
 
+import com.gdsc_cau.vridge.BuildConfig
 import com.gdsc_cau.vridge.data.api.VridgeApi
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
@@ -35,7 +36,7 @@ object ApiModule {
         converterFactory: Converter.Factory
     ): VridgeApi {
         return Retrofit.Builder()
-            .baseUrl(TODO("ourURL").toString())
+            .baseUrl(BuildConfig.SERVER_URL)
             .addConverterFactory(converterFactory)
             .client(okHttpClient).build()
             .create(VridgeApi::class.java)
