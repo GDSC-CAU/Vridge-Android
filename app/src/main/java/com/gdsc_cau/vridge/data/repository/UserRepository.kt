@@ -12,5 +12,7 @@ interface UserRepository {
 
     fun signOut()
 
+    fun getUid(): String
+
     suspend fun getUserInfo(uid: String): User
 }
