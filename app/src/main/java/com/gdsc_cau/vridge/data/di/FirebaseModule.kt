@@ -1,5 +1,7 @@
 package com.gdsc_cau.vridge.data.di
 
+import com.gdsc_cau.vridge.data.database.FileStorage
+import com.gdsc_cau.vridge.data.database.InfoDatabase
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -25,5 +27,13 @@ object FirebaseModule {
 
     @Singleton
     @Provides
+    fun provideInfoDatabase(firestore: FirebaseFirestore): InfoDatabase = InfoDatabase(firestore)
+
+    @Singleton
+    @Provides
     fun provideStorageReference(): StorageReference = Firebase.storage.reference
+
+    @Singleton
+    @Provides
+    fun provideFileStorage(storageReference: StorageReference): FileStorage = FileStorage(storageReference)
 }
