@@ -20,7 +20,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedButton
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,18 +35,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gdsc_cau.vridge.R
 import com.gdsc_cau.vridge.data.models.Gender
 import com.gdsc_cau.vridge.data.models.Voice
 import com.gdsc_cau.vridge.ui.theme.OnPrimaryLight
 import com.gdsc_cau.vridge.ui.theme.Primary
 import com.gdsc_cau.vridge.ui.theme.White
-import com.gdsc_cau.vridge.voicelist.VoiceListViewModel
 
 val dummyVoices = mutableListOf<Voice>().apply {
-    add(Voice(data = "", gender = Gender.MALE, id = "1", name = "Voice 1", recorder = "Recorder 1"))
-    add(Voice(data = "", gender = Gender.FEMALE, id = "2", name = "Voice 2", recorder = "Recorder 2"))
-    add(Voice(data = "", gender = Gender.FEMALE, id = "3", name = "Voice 3", recorder = "Recorder 3"))
+    add(Voice(id = "1", name = "Voice 1"))
+    add(Voice(id = "2", name = "Voice 2"))
+    add(Voice(id = "3", name = "Voice 3"))
 }
 
 @Composable
@@ -57,12 +56,12 @@ fun VoiceListScreen(
     onRecordClick: () -> Unit,
     viewModel: VoiceListViewModel = hiltViewModel()
 ) {
-    val voices = dummyVoices
+    val voices = viewModel.voiceList.collectAsStateWithLifecycle().value
 
     if (voices.isEmpty()) {
         EmptyVoiceList(onRecordClick)
     } else {
-        GridVoiceList(voices, onRecordClick, onVoiceClick)
+        GridVoiceList(voices, onRecordClick, { viewModel.synthesize(it) }, onVoiceClick)
     }
 }
 
@@ -91,7 +90,12 @@ fun EmptyVoiceList(onRecordClick: () -> Unit) {
 }
 
 @Composable
-fun GridVoiceList(voices: List<Voice>, onRecordClick: () -> Unit, onVoiceClick: (Voice) -> Unit) {
+fun GridVoiceList(
+    voices: List<Voice>,
+    onRecordClick: () -> Unit,
+    onSynthClick: (List<String>) -> Unit,
+    onVoiceClick: (Voice) -> Unit
+) {
     val selectedIds = rememberSaveable { mutableStateOf(emptySet<String>()) }
     val inSelectionMode = rememberSaveable { mutableStateOf(false) }
 
@@ -109,9 +113,9 @@ fun GridVoiceList(voices: List<Voice>, onRecordClick: () -> Unit, onVoiceClick: 
     ) {
         LazyVerticalGrid(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f),
+            Modifier
+                .fillMaxWidth()
+                .weight(1f),
             columns = GridCells.Fixed(3),
             contentPadding = PaddingValues(8.dp)
         ) {
@@ -142,13 +146,13 @@ fun GridVoiceList(voices: List<Voice>, onRecordClick: () -> Unit, onVoiceClick: 
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
+            Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
         ) {
             if (inSelectionMode.value) {
                 Button(
-                    onClick = {},
+                    onClick = { onSynthClick(selectedIds.value.toList()) },
                     elevation = ButtonDefaults.buttonElevation(4.dp),
                     modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
@@ -200,9 +204,9 @@ fun VoiceListItem(
 ) {
     Card(
         modifier =
-            modifier
-                .padding(8.dp)
-                .aspectRatio(1f),
+        modifier
+            .padding(8.dp)
+            .aspectRatio(1f),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp, pressedElevation = 2.dp)
     ) {
         Surface {
@@ -211,7 +215,9 @@ fun VoiceListItem(
                     Icons.Filled.Check,
                     contentDescription = null,
                     tint = OnPrimaryLight,
-                    modifier = modifier.padding(16.dp).fillMaxSize()
+                    modifier = modifier
+                        .padding(16.dp)
+                        .fillMaxSize()
                 )
             }
 
