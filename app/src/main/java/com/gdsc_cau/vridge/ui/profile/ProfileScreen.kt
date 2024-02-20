@@ -1,5 +1,7 @@
 package com.gdsc_cau.vridge.ui.profile
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,7 +11,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -18,51 +22,62 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gdsc_cau.vridge.R
 import com.gdsc_cau.vridge.data.models.User
+import com.gdsc_cau.vridge.ui.login.LoginActivity
+import com.gdsc_cau.vridge.ui.main.MainActivity
 import com.gdsc_cau.vridge.ui.theme.Grey3
 
 @Composable
 fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
     val user = viewModel.user.collectAsStateWithLifecycle().value
-    ProfileList(profileData = user)
+    val isLoggedOut = viewModel.isLoggedOut.collectAsStateWithLifecycle().value
+
+    val context = LocalContext.current
+
+    ProfileList(profileData = user, viewModel = viewModel)
+
+    LaunchedEffect(key1 = isLoggedOut) {
+        if (isLoggedOut) {
+            context.startActivity(Intent(context, LoginActivity::class.java))
+            (context as Activity).finish()
+        }
+    }
 }
 
 @Composable
-fun ProfileList(profileData: User) {
+fun ProfileList(profileData: User, viewModel: ProfileViewModel) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center
     ) {
         ProfileListItem(
             title = stringResource(id = R.string.profile_list_item_name),
-            content = profileData.name,
-            onClickFn = {}
+            content = profileData.name
         )
         ProfileListDivider()
         ProfileListItem(
             title = stringResource(id = R.string.profile_list_item_email),
-            content = profileData.email,
-            onClickFn = {}
+            content = profileData.email
         )
         ProfileListDivider()
         ProfileListItem(
             title = stringResource(id = R.string.profile_list_item_synthesize_cnt),
-            content = profileData.cntVoice.toString(),
-            onClickFn = {}
+            content = profileData.cntVoice.toString()
         )
         ProfileListDivider()
         ProfileListItem(
             title = stringResource(id = R.string.profile_list_item_signout_title),
             content = stringResource(id = R.string.profile_list_item_signout_description),
-            onClickFn = {
-                // TODO: Call Sign-Out Function
+            clickable = true,
+            onClick = {
+                viewModel.signOut()
             }
         )
         ProfileListDivider()
         ProfileListItem(
             title = stringResource(id = R.string.profile_list_item_delete_title),
             content = stringResource(id = R.string.profile_list_item_delete_description),
-            onClickFn = {
-                // TODO: Call Delete-Account Function
+            onClick = {
+                viewModel.unregister()
             }
         )
     }
@@ -79,11 +94,12 @@ fun ProfileListDivider() {
 fun ProfileListItem(
     title: String,
     content: String,
-    onClickFn: () -> Unit
+    clickable: Boolean = false,
+    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
-            .clickable { onClickFn.invoke() }
+            .clickable(enabled = clickable) { onClick() }
             .fillMaxWidth()
             .padding(all = 15.dp)
     ) {
