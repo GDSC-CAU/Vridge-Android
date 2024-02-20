@@ -3,6 +3,7 @@ package com.gdsc_cau.vridge.data.repository
 import android.content.Context
 import com.gdsc_cau.vridge.data.api.VridgeApi
 import com.gdsc_cau.vridge.data.database.FileStorage
+import com.gdsc_cau.vridge.data.models.Voice
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.JsonArray
@@ -58,7 +59,9 @@ class VoiceRepositoryImpl
             return true
         }
 
-        override suspend fun synthesize(uid: String, voiceId: List<String>) {
+        override suspend fun synthesize(voiceId: List<String>) {
+            val uid = auth.currentUser?.uid ?: return
+
             val data = JsonObject(
                 mapOf(
                     "uid" to JsonPrimitive(uid),
@@ -69,7 +72,9 @@ class VoiceRepositoryImpl
             api.synthesizeVoice(data)
         }
 
-        override suspend fun getVoiceList(uid: String): List<String> {
+        override suspend fun getVoiceList(): List<Voice> {
+            val uid = auth.currentUser?.uid ?: return emptyList()
+
             val data = JsonObject(
                 mapOf(
                     "uid" to JsonPrimitive(uid)
@@ -77,6 +82,9 @@ class VoiceRepositoryImpl
             )
 
             val result = api.getVoiceList(data)
-            return result.voiceList
+
+            return result.voiceList.map {
+                Voice(id = it.key, name = it.value)
+            }
         }
     }
