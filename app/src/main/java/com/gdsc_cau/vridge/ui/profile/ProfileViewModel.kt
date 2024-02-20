@@ -38,7 +38,10 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
 
     fun unregister() {
         viewModelScope.launch {
-            repository.unregister(repository.getUid())
+            val result = repository.unregister(repository.getUid())
+            if (result) {
+                _isLoggedOut.value = true
+            }
         }
     }
 }
