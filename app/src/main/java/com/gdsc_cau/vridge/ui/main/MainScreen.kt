@@ -49,7 +49,7 @@ fun MainScreen(
                         )
                     }
                     composable(RecordRoute.route) {
-                        RecordScreen()
+                        RecordScreen(navigator)
                     }
                     composable(
                         route = TalkRoute.detailRoute("{id}"),

@@ -1,5 +1,7 @@
 package com.gdsc_cau.vridge.ui.record
 
+import android.media.MediaRecorder
+import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,10 +28,13 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieClipSpec
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -37,6 +42,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.gdsc_cau.vridge.R
+import com.gdsc_cau.vridge.ui.main.MainNavigator
 import com.gdsc_cau.vridge.ui.theme.Black
 import com.gdsc_cau.vridge.ui.theme.Grey2
 import com.gdsc_cau.vridge.ui.theme.Grey4
@@ -44,27 +50,53 @@ import com.gdsc_cau.vridge.ui.theme.Primary
 import com.gdsc_cau.vridge.ui.theme.White
 
 @Composable
-fun RecordScreen() {
-    val recordingStatus =
-        rememberSaveable {
-            mutableStateOf(false)
-        }
+fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = hiltViewModel()) {
+    val index = viewModel.recordIndex.collectAsStateWithLifecycle().value
+    val text = viewModel.recordText.collectAsStateWithLifecycle().value
+    val isRecorded = viewModel.isRecorded.collectAsStateWithLifecycle().value
+    val finished = viewModel.finished.collectAsStateWithLifecycle().value
+
+    val fileName = LocalContext.current.externalCacheDir?.absolutePath ?: ""
+    viewModel.setFileName(fileName)
+
+    val recordingStatus = rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    val playingStatus = rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    val recorder = if (Build.VERSION_CODES.S <= Build.VERSION.SDK_INT) {
+        MediaRecorder(LocalContext.current)
+    } else {
+        MediaRecorder()
+    }
 
     Column(
         modifier =
-            Modifier
-                .fillMaxSize()
+        Modifier
+            .fillMaxSize()
     ) {
-        RecordDataView(idx = 0, data = "Hello, World!\nHello, World!")
+        RecordDataView(idx = index, data = text)
         Box(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
+            Modifier
+                .fillMaxWidth()
+                .weight(1f)
         ) {
-            RecordButton(recordingStatus)
+            RecordButton(recordingStatus) {
+                viewModel.onRecord(it, recorder)
+
+            }
         }
-        RecordNavigator()
+        RecordNavigator(playingStatus, isRecorded, index == 34, { viewModel.onPlay(it) }, { viewModel.getNextText() })
+    }
+
+    LaunchedEffect(key1 = finished) {
+        if (finished) {
+            navHostController.popBackStack()
+        }
     }
 }
 
@@ -84,14 +116,14 @@ fun RecordDataIndex(idx: Int) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 30.dp)
+        Modifier
+            .fillMaxWidth()
+            .padding(top = 30.dp)
     ) {
         Text(
             fontSize = 25.sp,
             color = Black,
-            text = "$idx / 33"
+            text = "$idx / 34"
         )
     }
 }
@@ -100,38 +132,40 @@ fun RecordDataIndex(idx: Int) {
 fun RecordDataCard(data: String) {
     ElevatedCard(
         colors =
-            CardDefaults.elevatedCardColors(
-                containerColor = Grey4,
-                contentColor = Black
-            ),
+        CardDefaults.elevatedCardColors(
+            containerColor = Grey4,
+            contentColor = Black
+        ),
         elevation =
-            CardDefaults.cardElevation(
-                defaultElevation = 5.dp
-            ),
+        CardDefaults.cardElevation(
+            defaultElevation = 5.dp
+        ),
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .height(250.dp)
-                .padding(all = 30.dp)
+        Modifier
+            .fillMaxWidth()
+            .height(250.dp)
+            .padding(all = 30.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
             modifier =
-                Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth()
+            Modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
         ) {
             Text(
                 fontSize = 20.sp,
-                text = data
+                text = data,
+                softWrap = true,
+                modifier = Modifier.padding(16.dp)
             )
         }
     }
 }
 
 @Composable
-fun RecordButton(recordingStatus: MutableState<Boolean>) {
+fun RecordButton(recordingStatus: MutableState<Boolean>, onClickRecord: (Boolean) -> Unit) {
     val lottieAnimatable = rememberLottieAnimatable()
     val lottieComposition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(R.raw.anim_lottie_loading)
@@ -149,23 +183,23 @@ fun RecordButton(recordingStatus: MutableState<Boolean>) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier =
-            Modifier
-                .fillMaxSize()
+        Modifier
+            .fillMaxSize()
     ) {
         ElevatedButton(
             colors =
-                ButtonDefaults.elevatedButtonColors(
-                    containerColor = Primary,
-                    contentColor = White
-                ),
+            ButtonDefaults.elevatedButtonColors(
+                containerColor = Primary,
+                contentColor = White
+            ),
             modifier =
-                Modifier
-                    .height(130.dp)
-                    .width(130.dp),
+            Modifier
+                .height(130.dp)
+                .width(130.dp),
             shape = CircleShape,
             onClick = {
-                // TODO: Record Start / Stop
                 recordingStatus.value = !recordingStatus.value
+                onClickRecord(recordingStatus.value)
             }
         ) {
             if (recordingStatus.value) {
@@ -177,9 +211,9 @@ fun RecordButton(recordingStatus: MutableState<Boolean>) {
             } else {
                 Icon(
                     painter =
-                        painterResource(
-                            id = R.drawable.ic_mic
-                        ),
+                    painterResource(
+                        id = R.drawable.ic_mic
+                    ),
                     contentDescription = "Record Button"
                 )
             }
@@ -188,34 +222,48 @@ fun RecordButton(recordingStatus: MutableState<Boolean>) {
 }
 
 @Composable
-fun RecordNavigator() {
+fun RecordNavigator(
+    playingStatus: MutableState<Boolean>,
+    clickable: Boolean,
+    isFinish: Boolean,
+    onClickPlay: (Boolean) -> Unit,
+    onClickNext: () -> Unit
+) {
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         modifier =
-            Modifier
-                .fillMaxWidth()
+        Modifier
+            .fillMaxWidth()
     ) {
-        RecordNavigateButton(text = stringResource(id = R.string.record_btn_play)) {
-            // TODO: Play Recorded
+        RecordNavigateButton(
+            text = stringResource(id = R.string.record_btn_play),
+            clickable
+        ) {
+            playingStatus.value = !playingStatus.value
+            onClickPlay(playingStatus.value)
         }
-        RecordNavigateButton(text = stringResource(id = R.string.record_btn_next)) {
-            // TODO: Next Record
+        RecordNavigateButton(
+            text = if (isFinish) stringResource(id = R.string.record_btn_finish) else stringResource(id = R.string.record_btn_next),
+            clickable
+        ) {
+            onClickNext()
         }
     }
 }
 
 @Composable
-fun RecordNavigateButton(text: String, onBtnClicked: () -> Unit) {
+fun RecordNavigateButton(text: String, clickable: Boolean, onBtnClicked: () -> Unit) {
     ElevatedButton(
+        enabled = true,
         colors =
-            ButtonDefaults.elevatedButtonColors(
-                containerColor = Grey2,
-                contentColor = White
-            ),
+        ButtonDefaults.elevatedButtonColors(
+            containerColor = if (clickable) Primary else Grey2,
+            contentColor = White
+        ),
         modifier =
-            Modifier
-                .padding(all = 20.dp)
-                .width(150.dp),
+        Modifier
+            .padding(all = 20.dp)
+            .width(150.dp),
         onClick = onBtnClicked
     ) {
         Text(
