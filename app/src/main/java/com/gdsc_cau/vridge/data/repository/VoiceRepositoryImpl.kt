@@ -1,7 +1,6 @@
 package com.gdsc_cau.vridge.data.repository
 
 import android.content.Context
-import android.net.Uri
 import com.gdsc_cau.vridge.data.api.VridgeApi
 import com.gdsc_cau.vridge.data.database.FileStorage
 import com.google.firebase.auth.FirebaseAuth
@@ -10,7 +9,6 @@ import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.util.UUID
 import javax.inject.Inject
 
