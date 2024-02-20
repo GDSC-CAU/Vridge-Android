@@ -1,6 +1,5 @@
 package com.gdsc_cau.vridge.ui.voicelist
 
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -36,12 +35,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.gdsc_cau.vridge.R
 import com.gdsc_cau.vridge.data.models.Gender
 import com.gdsc_cau.vridge.data.models.Voice
 import com.gdsc_cau.vridge.ui.theme.OnPrimaryLight
 import com.gdsc_cau.vridge.ui.theme.Primary
 import com.gdsc_cau.vridge.ui.theme.White
+import com.gdsc_cau.vridge.voicelist.VoiceListViewModel
 
 val dummyVoices = mutableListOf<Voice>().apply {
     add(Voice(data = "", gender = Gender.MALE, id = "1", name = "Voice 1", recorder = "Recorder 1"))
@@ -53,8 +54,8 @@ val dummyVoices = mutableListOf<Voice>().apply {
 fun VoiceListScreen(
     padding: PaddingValues,
     onVoiceClick: (Voice) -> Unit,
-    onRecordClick: () -> Unit
-//    viewModel: VoiceListViewModel = hiltViewModel()
+    onRecordClick: () -> Unit,
+    viewModel: VoiceListViewModel = hiltViewModel()
 ) {
     val voices = dummyVoices
 
