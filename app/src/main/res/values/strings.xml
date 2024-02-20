@@ -16,4 +16,6 @@
 
     <string name="record_btn_next">Next</string>
     <string name="record_btn_play">Play</string>
+    <string name="record_btn_stop">Stop</string>
+    <string name="record_btn_finish">Finish</string>
 </resources>
