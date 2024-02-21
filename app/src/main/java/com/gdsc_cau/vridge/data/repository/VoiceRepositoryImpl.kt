@@ -3,6 +3,7 @@ package com.gdsc_cau.vridge.data.repository
 import android.content.Context
 import com.gdsc_cau.vridge.data.api.VridgeApi
 import com.gdsc_cau.vridge.data.database.FileStorage
+import com.gdsc_cau.vridge.data.database.InfoDatabase
 import com.gdsc_cau.vridge.data.models.Voice
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -18,6 +19,7 @@ class VoiceRepositoryImpl
     constructor(
         private val api: VridgeApi,
         private val storage: FileStorage,
+        private val database: InfoDatabase,
         private val auth: FirebaseAuth,
         @ApplicationContext private val context: Context
     ) : VoiceRepository {
@@ -38,7 +40,7 @@ class VoiceRepositoryImpl
         override suspend fun makeVoice(path: String): Boolean {
             val uid = auth.currentUser?.uid ?: return false
             val vid = UUID.randomUUID().toString().replace("-", "")
-            (1..33).forEach {
+            (1..45).forEach {
                 val fileName = "$path/$it.m4a"
                 val fileReader = FileInputStream(fileName)
                 val data = ByteArray(fileReader.available())
@@ -54,38 +56,31 @@ class VoiceRepositoryImpl
                 )
             )
 
-//            return api.uploadTrainingVoice(data)
+            database.saveVoice(uid, vid)
 
-            return true
+            return api.uploadTrainingVoice(data)
         }
 
-        override suspend fun synthesize(voiceId: List<String>) {
-            val uid = auth.currentUser?.uid ?: return
+        override suspend fun synthesize(vid: List<String>): String {
+            val uid = auth.currentUser?.uid ?: return ""
 
             val data = JsonObject(
                 mapOf(
                     "uid" to JsonPrimitive(uid),
-                    "voiceId" to JsonArray(voiceId.map { JsonPrimitive(it) })
+                    "vid" to JsonArray(vid.map { JsonPrimitive(it) })
                 )
             )
 
-            api.synthesizeVoice(data)
+            return api.synthesizeVoice(data)
         }
 
         override suspend fun getVoiceList(): List<Voice> {
             val uid = auth.currentUser?.uid ?: return emptyList()
 
-            val data = JsonObject(
-                mapOf(
-                    "uid" to JsonPrimitive(uid)
-                )
-            )
+            val result = database.getVoiceList(uid).map { (vid, name) ->
+                Voice(vid, name)
+            }
 
-//            val result = api.getVoiceList(data)
-
-//            return result.voiceList.map {
-//                Voice(id = it.key, name = it.value)
-//            }
-            return emptyList()
+            return result
         }
     }
