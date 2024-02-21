@@ -43,12 +43,6 @@ import com.gdsc_cau.vridge.ui.theme.OnPrimaryLight
 import com.gdsc_cau.vridge.ui.theme.Primary
 import com.gdsc_cau.vridge.ui.theme.White
 
-val dummyVoices = mutableListOf<Voice>().apply {
-    add(Voice(id = "1", name = "Voice 1"))
-    add(Voice(id = "2", name = "Voice 2"))
-    add(Voice(id = "3", name = "Voice 3"))
-}
-
 @Composable
 fun VoiceListScreen(
     padding: PaddingValues,
@@ -57,7 +51,6 @@ fun VoiceListScreen(
     viewModel: VoiceListViewModel = hiltViewModel()
 ) {
     val voices = viewModel.voiceList.collectAsStateWithLifecycle().value
-
     if (voices.isEmpty()) {
         EmptyVoiceList(onRecordClick)
     } else {
