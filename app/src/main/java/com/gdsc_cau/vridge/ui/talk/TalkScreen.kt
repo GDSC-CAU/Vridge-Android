@@ -1,6 +1,5 @@
 package com.gdsc_cau.vridge.ui.talk
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,7 +17,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -52,22 +50,6 @@ enum class VoiceState {
     VOICE_READY
 }
 
-private val dummyTalkTextData: Array<String> =
-    arrayOf(
-        "That is what I want to say",
-        "I am talking to you",
-        "I love you mom",
-        "I think dad has my bag. Can you ask him to bring it to me?"
-    )
-
-private val dummyTalkStateData: Array<VoiceState> =
-    arrayOf(
-        VoiceState.VOICE_READY,
-        VoiceState.VOICE_READY,
-        VoiceState.VOICE_PLAYING,
-        VoiceState.VOICE_LOADING
-    )
-
 @Composable
 fun TalkScreen(
     voiceId: String,
@@ -91,25 +73,11 @@ fun TalkHistory(talks: List<Tts>, viewModel: TalkViewModel) {
             .fillMaxSize()
             .padding(bottom = 75.dp),
         verticalArrangement = Arrangement.Bottom,
-        reverseLayout = true
     ) {
         items(items = talks) {
             TalkCard(it, viewModel)
         }
     }
-//    Column(
-//        modifier =
-//        Modifier
-//            .fillMaxSize()
-//            .padding(bottom = 75.dp)
-//            .verticalScroll(ScrollState(Int.MAX_VALUE)),
-//        verticalArrangement = Arrangement.Bottom
-//    ) {
-//        TalkCard(talkData = dummyTalkTextData[0], voiceState = dummyTalkStateData[0])
-//        TalkCard(talkData = dummyTalkTextData[1], voiceState = dummyTalkStateData[1])
-//        TalkCard(talkData = dummyTalkTextData[2], voiceState = dummyTalkStateData[2])
-//        TalkCard(talkData = dummyTalkTextData[3], voiceState = dummyTalkStateData[3])
-//    }
 }
 
 @Composable
@@ -184,6 +152,9 @@ private fun TextCardController(voiceState: VoiceState, onPlay: (Boolean) -> Unit
         Icon(
             painter =
             painterResource(
+                if (playingStatus.value) {
+                    R.drawable.ic_play_stop
+                } else
                 when (voiceState) {
                     VoiceState.VOICE_LOADING -> R.drawable.ic_downloading
                     VoiceState.VOICE_PLAYING -> R.drawable.ic_play_stop
@@ -237,7 +208,10 @@ fun TalkInput(onSendClicked: (String) -> Unit) {
                 Modifier
                     .height(40.dp)
                     .width(40.dp),
-                onClick = { onSendClicked(data) }
+                onClick = {
+                    onSendClicked(data)
+                    data = ""
+                }
             ) {
                 Icon(
                     painterResource(R.drawable.ic_send),
