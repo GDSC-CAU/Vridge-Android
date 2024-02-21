@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
@@ -24,6 +26,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,14 +36,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.gdsc_cau.vridge.R
+import com.gdsc_cau.vridge.data.models.Tts
 import com.gdsc_cau.vridge.ui.theme.Black
 import com.gdsc_cau.vridge.ui.theme.Grey3
 import com.gdsc_cau.vridge.ui.theme.Grey4
 import com.gdsc_cau.vridge.ui.theme.PrimaryUpperLight
 import com.gdsc_cau.vridge.ui.theme.White
 
-private enum class VoiceState {
+enum class VoiceState {
     VOICE_LOADING,
     VOICE_PLAYING,
     VOICE_READY
@@ -48,13 +54,15 @@ private enum class VoiceState {
 
 private val dummyTalkTextData: Array<String> =
     arrayOf(
-        "This is Talk Card Content\nThis is Talk Card Content\nThis is Talk Card Content\nContent Ready",
-        "This is Talk Card Content\nThis is Talk Card Content\nContent Playing",
-        "This is Talk Card Content\nContent Loading"
+        "That is what I want to say",
+        "I am talking to you",
+        "I love you mom",
+        "I think dad has my bag. Can you ask him to bring it to me?"
     )
 
 private val dummyTalkStateData: Array<VoiceState> =
     arrayOf(
+        VoiceState.VOICE_READY,
         VoiceState.VOICE_READY,
         VoiceState.VOICE_PLAYING,
         VoiceState.VOICE_LOADING
@@ -62,120 +70,148 @@ private val dummyTalkStateData: Array<VoiceState> =
 
 @Composable
 fun TalkScreen(
-    sessionId: String
+    voiceId: String,
+    viewModel: TalkViewModel = hiltViewModel()
 ) {
-    TalkHistory()
+    viewModel.setVid(voiceId)
+
+    val talks = viewModel.talks.collectAsStateWithLifecycle().value
+    viewModel.getTalks()
+
+    TalkHistory(talks, viewModel)
     TalkInput(onSendClicked = {
-        // TODO: Send Talk to API
+        viewModel.createTts(it)
     })
 }
 
 @Composable
-fun TalkHistory() {
-    Column(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(bottom = 75.dp)
-                .verticalScroll(ScrollState(Int.MAX_VALUE)),
-        verticalArrangement = Arrangement.Bottom
+fun TalkHistory(talks: List<Tts>, viewModel: TalkViewModel) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 75.dp),
+        verticalArrangement = Arrangement.Bottom,
+        reverseLayout = true
     ) {
-        TalkCard(talkData = dummyTalkTextData[0], voiceState = dummyTalkStateData[0])
-        TalkCard(talkData = dummyTalkTextData[1], voiceState = dummyTalkStateData[1])
-        TalkCard(talkData = dummyTalkTextData[2], voiceState = dummyTalkStateData[2])
-        TalkCard(talkData = dummyTalkTextData[0], voiceState = dummyTalkStateData[0])
-        TalkCard(talkData = dummyTalkTextData[1], voiceState = dummyTalkStateData[1])
-        TalkCard(talkData = dummyTalkTextData[2], voiceState = dummyTalkStateData[2])
+        items(items = talks) {
+            TalkCard(it, viewModel)
+        }
     }
+//    Column(
+//        modifier =
+//        Modifier
+//            .fillMaxSize()
+//            .padding(bottom = 75.dp)
+//            .verticalScroll(ScrollState(Int.MAX_VALUE)),
+//        verticalArrangement = Arrangement.Bottom
+//    ) {
+//        TalkCard(talkData = dummyTalkTextData[0], voiceState = dummyTalkStateData[0])
+//        TalkCard(talkData = dummyTalkTextData[1], voiceState = dummyTalkStateData[1])
+//        TalkCard(talkData = dummyTalkTextData[2], voiceState = dummyTalkStateData[2])
+//        TalkCard(talkData = dummyTalkTextData[3], voiceState = dummyTalkStateData[3])
+//    }
 }
 
 @Composable
-private fun TalkCard(talkData: String, voiceState: VoiceState) {
+private fun TalkCard(talkData: Tts, viewModel: TalkViewModel) {
+    val voiceState = when (
+        viewModel.getTtsState(talkData.id).collectAsState(initial = VoiceState.VOICE_LOADING).value) {
+        true -> VoiceState.VOICE_READY
+        else -> VoiceState.VOICE_LOADING
+    }
+
     ElevatedCard(
         colors =
-            CardDefaults.cardColors(
-                containerColor = White,
-                contentColor = Black
-            ),
+        CardDefaults.cardColors(
+            containerColor = White,
+            contentColor = Black
+        ),
         elevation =
-            CardDefaults.cardElevation(
-                defaultElevation = 4.dp
-            ),
+        CardDefaults.cardElevation(
+            defaultElevation = 4.dp
+        ),
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-                .padding(all = 15.dp)
+        Modifier
+            .fillMaxWidth()
+            .height(IntrinsicSize.Min)
+            .padding(all = 15.dp)
     ) {
         Row(
             modifier =
-                Modifier
-                    .fillMaxWidth()
+            Modifier
+                .fillMaxWidth()
         ) {
             Box(
                 modifier =
-                    Modifier
-                        .padding(all = 15.dp)
-                        .weight(1f)
+                Modifier
+                    .padding(all = 15.dp)
+                    .weight(1f)
             ) {
-                Text(text = talkData)
+                Text(text = talkData.text)
             }
-            TextCardController(voiceState = voiceState)
+            TextCardController(voiceState = voiceState) { start ->
+                viewModel.onPlay(start, talkData.id)
+            }
         }
     }
 }
 
 @Composable
-private fun TextCardController(voiceState: VoiceState) {
+private fun TextCardController(voiceState: VoiceState, onPlay: (Boolean) -> Unit) {
+    val playingStatus = remember {
+        mutableStateOf(false)
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier =
-            Modifier
-                .background(
-                    if (voiceState == VoiceState.VOICE_LOADING) {
-                        Grey3
-                    } else {
-                        PrimaryUpperLight
-                    }
-                )
-                .fillMaxHeight()
-                .width(50.dp)
-                .clickable {
-                    // TODO: Call Control Function
+        Modifier
+            .background(
+                if (voiceState == VoiceState.VOICE_LOADING) {
+                    Grey3
+                } else {
+                    PrimaryUpperLight
                 }
+            )
+            .fillMaxHeight()
+            .width(50.dp)
+            .clickable {
+                playingStatus.value = !playingStatus.value
+                onPlay(playingStatus.value)
+            }
     ) {
         Icon(
             painter =
-                painterResource(
-                    when (voiceState) {
-                        VoiceState.VOICE_LOADING -> R.drawable.ic_downloading
-                        VoiceState.VOICE_PLAYING -> R.drawable.ic_play_stop
-                        else -> R.drawable.ic_play_arrow
-                    }
-                ),
+            painterResource(
+                when (voiceState) {
+                    VoiceState.VOICE_LOADING -> R.drawable.ic_downloading
+                    VoiceState.VOICE_PLAYING -> R.drawable.ic_play_stop
+                    else -> R.drawable.ic_play_arrow
+                }
+            ),
             contentDescription = "Play Button"
         )
     }
 }
 
 @Composable
-fun TalkInput(onSendClicked: () -> Unit) {
+fun TalkInput(onSendClicked: (String) -> Unit) {
     var data by remember {
         mutableStateOf("")
     }
 
     Row(
         modifier =
-            Modifier
-                .fillMaxSize(),
+        Modifier
+            .fillMaxSize(),
         verticalAlignment = Alignment.Bottom
     ) {
         BasicTextField(
             modifier =
-                Modifier
-                    .height(60.dp)
-                    .weight(1f),
+            Modifier
+                .height(60.dp)
+                .weight(1f),
             value = data,
             onValueChange = { input ->
                 data = input
@@ -187,21 +223,21 @@ fun TalkInput(onSendClicked: () -> Unit) {
         Box(
             contentAlignment = Alignment.Center,
             modifier =
-                Modifier
-                    .background(Grey4)
-                    .height(60.dp)
-                    .width(60.dp)
+            Modifier
+                .background(Grey4)
+                .height(60.dp)
+                .width(60.dp)
         ) {
             IconButton(
                 colors =
-                    IconButtonDefaults.iconButtonColors(
-                        contentColor = Black
-                    ),
+                IconButtonDefaults.iconButtonColors(
+                    contentColor = Black
+                ),
                 modifier =
-                    Modifier
-                        .height(40.dp)
-                        .width(40.dp),
-                onClick = onSendClicked
+                Modifier
+                    .height(40.dp)
+                    .width(40.dp),
+                onClick = { onSendClicked(data) }
             ) {
                 Icon(
                     painterResource(R.drawable.ic_send),
@@ -216,21 +252,21 @@ fun TalkInput(onSendClicked: () -> Unit) {
 fun TalkInputDecor(innerTextField: @Composable () -> Unit) {
     Row(
         modifier =
-            Modifier
-                .background(Grey4)
-                .padding(start = 10.dp)
-                .padding(vertical = 10.dp),
+        Modifier
+            .background(Grey4)
+            .padding(start = 10.dp)
+            .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             contentAlignment = Alignment.CenterStart,
             modifier =
-                Modifier
-                    .clip(RoundedCornerShape(8.dp))
-                    .background(White)
-                    .fillMaxSize()
-                    .padding(start = 10.dp)
-                    .padding(vertical = 5.dp)
+            Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(White)
+                .fillMaxSize()
+                .padding(start = 10.dp)
+                .padding(vertical = 5.dp)
         ) {
             innerTextField()
         }
