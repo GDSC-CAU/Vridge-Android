@@ -157,7 +157,7 @@ fun GridVoiceList(
                     modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
                     Text(
-                        "합성 ( ${selectedIds.value.size} / 2 )",
+                        "Synth ( ${selectedIds.value.size} / 2 )",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = White,
@@ -171,7 +171,7 @@ fun GridVoiceList(
                     modifier = Modifier.padding(horizontal = 8.dp)
                 ) {
                     Text(
-                        "추가",
+                        "Add",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = White,
@@ -183,7 +183,7 @@ fun GridVoiceList(
                     elevation = ButtonDefaults.buttonElevation(4.dp)
                 ) {
                     Text(
-                        "합성",
+                        "Synth",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Bold,
                         color = White,
