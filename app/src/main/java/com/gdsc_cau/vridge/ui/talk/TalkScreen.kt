@@ -80,7 +80,7 @@ fun TalkScreen(
 
     TalkHistory(talks, viewModel)
     TalkInput(onSendClicked = {
-        // TODO: Send Talk to API
+        viewModel.createTts(it)
     })
 }
 
@@ -114,7 +114,7 @@ fun TalkHistory(talks: List<Tts>, viewModel: TalkViewModel) {
 
 @Composable
 private fun TalkCard(talkData: Tts, viewModel: TalkViewModel) {
-    val voiceState = when(
+    val voiceState = when (
         viewModel.getTtsState(talkData.id).collectAsState(initial = VoiceState.VOICE_LOADING).value) {
         true -> VoiceState.VOICE_READY
         else -> VoiceState.VOICE_LOADING
@@ -196,7 +196,7 @@ private fun TextCardController(voiceState: VoiceState, onPlay: (Boolean) -> Unit
 }
 
 @Composable
-fun TalkInput(onSendClicked: () -> Unit) {
+fun TalkInput(onSendClicked: (String) -> Unit) {
     var data by remember {
         mutableStateOf("")
     }
@@ -237,7 +237,7 @@ fun TalkInput(onSendClicked: () -> Unit) {
                 Modifier
                     .height(40.dp)
                     .width(40.dp),
-                onClick = onSendClicked
+                onClick = { onSendClicked(data) }
             ) {
                 Icon(
                     painterResource(R.drawable.ic_send),

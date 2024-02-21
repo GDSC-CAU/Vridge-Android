@@ -17,7 +17,9 @@ constructor(
     private val storage: FileStorage,
     private val database: InfoDatabase
 ) : TalkRepository {
-    override suspend fun createTts(text: String, uid: String, voiceId: String): String {
+    override suspend fun createTts(text: String, voiceId: String): String {
+        val uid = auth.currentUser?.uid ?: return ""
+
         val data = JsonObject(
             mapOf(
                 "text" to JsonPrimitive(text),

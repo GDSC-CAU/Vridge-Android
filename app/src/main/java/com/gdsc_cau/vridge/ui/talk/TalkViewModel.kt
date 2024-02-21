@@ -65,6 +65,12 @@ class TalkViewModel @Inject constructor(private val repository: TalkRepository) 
         player = null
     }
 
+    fun createTts(text: String) {
+        viewModelScope.launch {
+            repository.createTts(text, vid)
+        }
+    }
+
     fun getTalks() {
         viewModelScope.launch {
             _talks.emit(repository.getTalks(vid))
