@@ -24,7 +24,7 @@ class UserRepositoryImpl
                     )
                 )
             val result = api.login(data)
-            return result.isSuccess
+            return result.success
         }
 
         override suspend fun unregister(uid: String): Boolean {
@@ -36,7 +36,7 @@ class UserRepositoryImpl
                 )
 
             val result = api.unregister(data)
-            return result.isSuccess
+            return result.success
         }
 
         override fun getCurrentUser(): FirebaseUser? {
