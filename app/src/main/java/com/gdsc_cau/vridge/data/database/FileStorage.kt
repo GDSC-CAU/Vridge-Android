@@ -1,7 +1,5 @@
 package com.gdsc_cau.vridge.data.database
 
-import android.net.Uri
-import android.util.Log
 import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
@@ -15,5 +13,15 @@ class FileStorage @Inject constructor(private val storageReference: StorageRefer
     fun downloadFile(path: String) {
         val fileReference = storageReference.child(path)
         fileReference.getBytes(1024 * 1024)
+    }
+
+    fun getDownloadUrl(path: String): String {
+        val fileReference = storageReference.child(path)
+        return fileReference.downloadUrl.result.toString()
+    }
+
+    fun existTts(uid: String, vid: String, ttsId: String): Boolean {
+        return storageReference.child(uid).child(vid).listAll()
+            .result.items.any { it.name == "$ttsId.wav" }
     }
 }
