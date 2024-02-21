@@ -7,7 +7,7 @@ interface VoiceRepository {
 
     suspend fun makeVoice(path: String): Boolean
 
-    suspend fun synthesize(voiceId: List<String>)
+    suspend fun synthesize(vid: List<String>): String
 
     suspend fun getVoiceList(): List<Voice>
 }
