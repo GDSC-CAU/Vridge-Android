@@ -6,6 +6,7 @@ import kotlinx.serialization.json.JsonObject
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface VridgeApi {
     @POST("/api/v1/user/login")
@@ -20,13 +21,13 @@ interface VridgeApi {
 
     @GET("api/v1/voice/list")
     suspend fun getVoiceList(
-        @Body json: JsonObject
+        @Query("uid") uid: String
     ): VoiceListDto
 
     @POST("api/v1/voice/upload")
     suspend fun uploadTrainingVoice(
         @Body json: JsonObject
-    ): String
+    ): Boolean
 
     @POST("api/v1/voice/synthesize")
     suspend fun synthesizeVoice(

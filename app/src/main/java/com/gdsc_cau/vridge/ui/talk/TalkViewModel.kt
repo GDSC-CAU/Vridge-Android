@@ -3,12 +3,16 @@ package com.gdsc_cau.vridge.ui.talk
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gdsc_cau.vridge.data.models.Tts
 import com.gdsc_cau.vridge.data.repository.TalkRepository
 import com.gdsc_cau.vridge.ui.record.LOG_TAG
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow

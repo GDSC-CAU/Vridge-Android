@@ -7,6 +7,7 @@ import com.gdsc_cau.vridge.data.models.Tts
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
+import java.util.UUID
 import javax.inject.Inject
 
 class TalkRepositoryImpl
@@ -17,24 +18,29 @@ constructor(
     private val storage: FileStorage,
     private val database: InfoDatabase
 ) : TalkRepository {
-    override suspend fun createTts(text: String, voiceId: String): String {
+    override suspend fun createTts(text: String, vid: String): String {
         val uid = auth.currentUser?.uid ?: return ""
-
+        val tid = UUID.randomUUID().toString().replace("-", "")
         val data = JsonObject(
             mapOf(
                 "text" to JsonPrimitive(text),
                 "uid" to JsonPrimitive(uid),
-                "voiceId" to JsonPrimitive(voiceId)
+                "vid" to JsonPrimitive(vid),
+                "tid" to JsonPrimitive(tid),
+                "pitch" to JsonPrimitive(0),
             )
         )
 
-        val result = api.createTts(data)
-        TODO("File Download")
+        if (api.createTts(data).success.not()) return ""
+
+        database.saveTts(uid, vid, Tts(tid, text, System.currentTimeMillis()))
+
+        return tid
     }
 
-    override suspend fun getTtsUrl(vid: String, ttsId: String): String {
+    override suspend fun getTtsUrl(vid: String, tid: String): String {
         val uid = auth.currentUser?.uid ?: return ""
-        return storage.getDownloadUrl("$uid/$vid/$ttsId.wav")
+        return storage.getDownloadUrl("$uid/$vid/$tid.wav")
     }
 
     override suspend fun getTalks(vid: String): List<Tts> {
@@ -42,8 +48,8 @@ constructor(
         return database.getTalks(uid, vid)
     }
 
-    override suspend fun getTtsState(vid: String, ttsId: String): Boolean {
+    override suspend fun getTtsState(vid: String, tid: String): Boolean {
         val uid = auth.currentUser?.uid ?: return false
-        return storage.existTts(uid, vid, ttsId)
+        return storage.existTts(uid, vid, tid)
     }
 }

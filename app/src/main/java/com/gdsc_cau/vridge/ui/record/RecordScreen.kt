@@ -90,7 +90,7 @@ fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = 
 
             }
         }
-        RecordNavigator(playingStatus, isRecorded, index == 34, { viewModel.onPlay(it) }, { viewModel.getNextText() })
+        RecordNavigator(playingStatus, isRecorded, index == 45, { viewModel.onPlay(it) }, { viewModel.getNextText() })
     }
 
     LaunchedEffect(key1 = finished) {
@@ -123,7 +123,7 @@ fun RecordDataIndex(idx: Int) {
         Text(
             fontSize = 25.sp,
             color = Black,
-            text = "$idx / 34"
+            text = "$idx / 45"
         )
     }
 }
@@ -244,7 +244,7 @@ fun RecordNavigator(
         }
         RecordNavigateButton(
             text = if (isFinish) stringResource(id = R.string.record_btn_finish) else stringResource(id = R.string.record_btn_next),
-            clickable
+            true
         ) {
             onClickNext()
         }

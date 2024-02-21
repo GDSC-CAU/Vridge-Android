@@ -45,7 +45,7 @@ class RecordViewModel @Inject constructor(
 
     fun getNextText() {
         viewModelScope.launch {
-            if (recordIndex.value == 34) {
+            if (recordIndex.value == 45) {
                 if (repository.makeVoice(fileDir)) {
                     _finished.emit(true)
                 }
