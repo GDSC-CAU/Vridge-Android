@@ -23,7 +23,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -68,6 +70,8 @@ fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = 
         mutableStateOf(false)
     }
 
+    val voiceName = remember { mutableStateOf("") }
+    val sliderPosition = remember { mutableFloatStateOf(-6f) }
 
     val recorder = if (Build.VERSION_CODES.S <= Build.VERSION.SDK_INT) {
         MediaRecorder(LocalContext.current)
@@ -80,7 +84,7 @@ fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = 
         Modifier
             .fillMaxSize()
     ) {
-        RecordDataView(idx = index, data = text)
+        RecordDataView(idx = if (index <= viewModel.scriptSize) "$index / ${viewModel.scriptSize}" else "", data = text)
         Box(
             modifier =
             Modifier
@@ -97,14 +101,19 @@ fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = 
             isRecorded,
             index == viewModel.scriptSize,
             { viewModel.onPlay(it) }
-        ) { viewModel.getNextText() }
-        LoadingDialog(isLoading)
-    }
-
-    LaunchedEffect(key1 = finished) {
-        if (finished) {
-            navHostController.popBackStack()
+        ) {
+            viewModel.getNextText()
         }
+        LoadingDialog(isLoading)
+        VoiceSettingDialog(
+            isShowingDialog = (index == viewModel.scriptSize + 1),
+            text = voiceName,
+            sliderPosition = sliderPosition,
+            onConfirmRequest = {
+                viewModel.confirmVoice(voiceName.value, sliderPosition.floatValue)
+                navHostController.popBackStack()
+            }
+        )
     }
 
     LaunchedEffect(key1 = fileName) {
@@ -113,7 +122,7 @@ fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = 
 }
 
 @Composable
-fun RecordDataView(idx: Int, data: String) {
+fun RecordDataView(idx: String, data: String) {
     Column(
         modifier = Modifier
     ) {
@@ -123,7 +132,7 @@ fun RecordDataView(idx: Int, data: String) {
 }
 
 @Composable
-fun RecordDataIndex(idx: Int) {
+fun RecordDataIndex(idx: String) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -135,7 +144,7 @@ fun RecordDataIndex(idx: Int) {
         Text(
             fontSize = 25.sp,
             color = Black,
-            text = "$idx / 45"
+            text = idx
         )
     }
 }
@@ -256,7 +265,7 @@ fun RecordNavigator(
         }
         RecordNavigateButton(
             text = if (isFinish) stringResource(id = R.string.record_btn_finish) else stringResource(id = R.string.record_btn_next),
-            clickable
+            true
         ) {
             onClickNext()
         }
