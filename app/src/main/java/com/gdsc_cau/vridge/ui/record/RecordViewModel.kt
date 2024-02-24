@@ -54,21 +54,21 @@ class RecordViewModel @Inject constructor(
     fun getNextText() {
         viewModelScope.launch {
             _isLoading.emit(true)
-            if (recordIndex.value == repository.getScriptSize()) {
-                if (!repository.saveVoice(recordIndex.value)) {
-                    _finished.emit(false)
-                } else {
-                    _finished.emit(repository.afterRecord())
-                }
-            } else {
-                val result = repository.saveVoice(recordIndex.value)
-                if (result) {
-                    _recordIndex.emit(recordIndex.value + 1)
-                    fileName = "$fileDir/${recordIndex.value}.m4a"
-                    _recordText.emit(repository.getTrainingText(recordIndex.value))
-                    _isRecorded.emit(false)
-                }
+            val result = repository.saveVoice(recordIndex.value)
+            if (result) {
+                _recordIndex.emit(recordIndex.value + 1)
+                fileName = "$fileDir/${recordIndex.value}.m4a"
+                _recordText.emit(repository.getTrainingText(recordIndex.value))
+                _isRecorded.emit(false)
             }
+            _isLoading.emit(false)
+        }
+    }
+
+    fun confirmVoice(name: String, pitch: Float) {
+        viewModelScope.launch {
+            _isLoading.emit(true)
+            _finished.emit(repository.afterRecord(name, pitch))
             _isLoading.emit(false)
         }
     }
@@ -126,10 +126,16 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    private fun stopRecording() {
-        recorder?.apply {
-            stop()
-            release()
+    private fun stopRecording(): Boolean {
+        try {
+            recorder?.let {
+                it.stop()
+                it.release()
+                return true
+            } ?: return false
+        } catch (e: Exception) {
+            Log.e(LOG_TAG, "stopRecording() failed")
+            return false
         }
     }
 }
