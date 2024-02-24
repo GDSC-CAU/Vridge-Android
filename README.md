@@ -12,6 +12,13 @@ This is a voice synthesis application for verbally challenged individuals. It pr
 | Android | AI / ML | Back-End | Android |
 | GDSC CAU Lead | GDSC CAU Member | GDSC CAU Member | GDSC CAU Core |
 
+## Project Repository
+[Android Application](https://github.com/GDSC-CAU/Vridge-Android)
+
+[Spring Back-End](https://github.com/GDSC-CAU/Vridge-BE)
+
+[Python AI](https://github.com/GDSC-CAU/Vridge-AI)
+
 ## Problem Statement
 
 Talking and communicating with family or friends is natural for most people, but this is not the case for people with speech impairments.
@@ -29,6 +36,11 @@ Through our application-based project, they can synthesize their own unique voic
 ## High-Level Overview
 
 ![image](https://github.com/GDSC-CAU/Vridge-Android/assets/62137001/9aa649f5-1bf9-4113-9cd6-d94caa0c119f)
+
+## Get Started
+
+1. Download Application APK File from [Android Repository Release](https://github.com/GDSC-CAU/Vridge-Android)
+2. Install APK on your Android Device
 
 ## Application Screenshots
 
