@@ -1,14 +1,20 @@
 package com.gdsc_cau.vridge.data.database
 
 import com.google.firebase.storage.StorageReference
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class FileStorage @Inject constructor(private val storageReference: StorageReference) {
-    suspend fun uploadFile(uid: String, vid: String, fileName: String, data: ByteArray) {
+    suspend fun uploadFile(uid: String, vid: String, fileName: String, data: ByteArray) = callbackFlow {
         val fileReference = storageReference.child(uid).child(vid).child("train").child(fileName)
-        fileReference.putBytes(data).await()
-    }
+        fileReference.putBytes(data).addOnCompleteListener {
+            trySend(it.isSuccessful)
+        }
+        awaitClose()
+    }.first()
 
     fun downloadFile(path: String) {
         val fileReference = storageReference.child(path)
