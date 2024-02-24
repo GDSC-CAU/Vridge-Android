@@ -31,33 +31,48 @@ class RecordViewModel @Inject constructor(
     private val _finished = MutableStateFlow(false)
     val finished: StateFlow<Boolean> = _finished
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
     private var recorder: MediaRecorder? = null
     private var player: MediaPlayer? = null
 
     private lateinit var fileDir: String
     private lateinit var fileName: String
 
+    val scriptSize = repository.getScriptSize()
+
     fun setFileName(name: String) {
-        fileDir = name
-        fileName = "$fileDir/${recordIndex.value}.m4a"
-        Log.d("RecordViewModel", "fileName: $fileName")
+        viewModelScope.launch {
+            fileDir = name
+            fileName = "$fileDir/${recordIndex.value}.m4a"
+            repository.beforeRecord(fileDir)
+            Log.d(LOG_TAG, "fileDir: $fileDir, fileName: $fileName")
+        }
     }
 
     fun getNextText() {
         viewModelScope.launch {
-            if (recordIndex.value == 45) {
-                if (repository.makeVoice(fileDir)) {
-                    _finished.emit(true)
-                }
-            }
-            else {
-                fileName = "$fileDir/${recordIndex.value}.m4a"
+            _isLoading.emit(true)
+            val result = repository.saveVoice(recordIndex.value)
+            if (result) {
                 _recordIndex.emit(recordIndex.value + 1)
+                fileName = "$fileDir/${recordIndex.value}.m4a"
                 _recordText.emit(repository.getTrainingText(recordIndex.value))
                 _isRecorded.emit(false)
             }
+            _isLoading.emit(false)
         }
     }
+
+    fun confirmVoice(name: String, pitch: Float) {
+        viewModelScope.launch {
+            _isLoading.emit(true)
+            _finished.emit(repository.afterRecord(name, pitch))
+            _isLoading.emit(false)
+        }
+    }
+
 
     fun onRecord(start: Boolean, recorder: MediaRecorder? = null) {
         viewModelScope.launch {
@@ -111,11 +126,16 @@ class RecordViewModel @Inject constructor(
         }
     }
 
-    private fun stopRecording() {
-        recorder?.apply {
-            stop()
-            release()
+    private fun stopRecording(): Boolean {
+        try {
+            recorder?.let {
+                it.stop()
+                it.release()
+                return true
+            } ?: return false
+        } catch (e: Exception) {
+            Log.e(LOG_TAG, "stopRecording() failed")
+            return false
         }
     }
-
 }
