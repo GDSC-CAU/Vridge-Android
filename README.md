@@ -1,3 +1,5 @@
+![Banner](https://github.com/GDSC-CAU/Vridge-Android/assets/12806229/8d26574f-c088-4e82-a207-ff5658b2828a)
+
 # Project Vridge
 
 This is a voice synthesis application for verbally challenged individuals. It provides an opportunity for those who are challenged to pass their thoughts on others to engage in verbal conversations with others through the service.  This helps reduce inequalities in their communication.
