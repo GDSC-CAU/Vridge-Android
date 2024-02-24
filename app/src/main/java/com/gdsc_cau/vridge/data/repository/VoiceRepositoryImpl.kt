@@ -37,6 +37,8 @@ class VoiceRepositoryImpl
         private var path: String? = null
 
         override fun getTrainingText(index: Int): String {
+            if (index < 1 || index > scripts.size)
+                return ""
             return scripts[index - 1]
         }
 
@@ -60,7 +62,7 @@ class VoiceRepositoryImpl
             return storage.uploadFile(uid, vid, "$index.m4a", data)
         }
 
-        override suspend fun afterRecord(): Boolean {
+        override suspend fun afterRecord(name: String, pitch: Float): Boolean {
             val uid = auth.currentUser?.uid ?: return false
             val vid = this.vid ?: return false
             val data = JsonObject(
@@ -70,7 +72,7 @@ class VoiceRepositoryImpl
                     "path" to JsonPrimitive("$uid/$vid/train")
                 )
             )
-            database.saveVoice(uid, vid)
+            database.saveVoice(uid, vid, name, pitch)
             return api.uploadTrainingVoice(data)
         }
 
