@@ -48,6 +48,7 @@ import com.gdsc_cau.vridge.ui.theme.Grey2
 import com.gdsc_cau.vridge.ui.theme.Grey4
 import com.gdsc_cau.vridge.ui.theme.Primary
 import com.gdsc_cau.vridge.ui.theme.White
+import com.gdsc_cau.vridge.ui.util.LoadingDialog
 
 @Composable
 fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = hiltViewModel()) {
@@ -55,9 +56,9 @@ fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = 
     val text = viewModel.recordText.collectAsStateWithLifecycle().value
     val isRecorded = viewModel.isRecorded.collectAsStateWithLifecycle().value
     val finished = viewModel.finished.collectAsStateWithLifecycle().value
+    val isLoading = viewModel.isLoading.collectAsStateWithLifecycle().value
 
     val fileName = LocalContext.current.externalCacheDir?.absolutePath ?: ""
-    viewModel.setFileName(fileName)
 
     val recordingStatus = rememberSaveable {
         mutableStateOf(false)
@@ -66,6 +67,7 @@ fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = 
     val playingStatus = rememberSaveable {
         mutableStateOf(false)
     }
+
 
     val recorder = if (Build.VERSION_CODES.S <= Build.VERSION.SDK_INT) {
         MediaRecorder(LocalContext.current)
@@ -90,13 +92,23 @@ fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = 
 
             }
         }
-        RecordNavigator(playingStatus, isRecorded, index == 45, { viewModel.onPlay(it) }, { viewModel.getNextText() })
+        RecordNavigator(
+            playingStatus,
+            isRecorded,
+            index == viewModel.scriptSize,
+            { viewModel.onPlay(it) }
+        ) { viewModel.getNextText() }
+        LoadingDialog(isLoading)
     }
 
     LaunchedEffect(key1 = finished) {
         if (finished) {
             navHostController.popBackStack()
         }
+    }
+
+    LaunchedEffect(key1 = fileName) {
+        viewModel.setFileName(fileName)
     }
 }
 
@@ -236,7 +248,7 @@ fun RecordNavigator(
             .fillMaxWidth()
     ) {
         RecordNavigateButton(
-            text = stringResource(id = R.string.record_btn_play),
+            text = if (!playingStatus.value) stringResource(id = R.string.record_btn_play) else stringResource(id = R.string.record_btn_stop),
             clickable
         ) {
             playingStatus.value = !playingStatus.value
@@ -244,7 +256,7 @@ fun RecordNavigator(
         }
         RecordNavigateButton(
             text = if (isFinish) stringResource(id = R.string.record_btn_finish) else stringResource(id = R.string.record_btn_next),
-            true
+            clickable
         ) {
             onClickNext()
         }
