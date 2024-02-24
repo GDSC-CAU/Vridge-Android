@@ -67,19 +67,23 @@ constructor(
         )
     }
 
-    suspend fun saveVoice(uid: String, vid: String) = callbackFlow {
-        val result = database.collection("user").document(uid).get().await()
-        val count = result.data?.get("cntVoice") as Long
-
-        val data = hashMapOf(vid to "Voice ${count + 1}")
-        database.collection("user").document(uid).set(
-            mapOf(
-                "cntVoice" to count + 1,
-                "voice" to data
-            ), SetOptions.merge()
-        ).addOnCompleteListener {
-            trySend(it.isSuccessful)
-        }
+    suspend fun saveVoice(uid: String, vid: String, name: String, pitch: Float) = callbackFlow {
+        val userDoc = database.collection("user").document(uid).get().await()
+        val count = userDoc.data?.get("cntVoice") as Long
+        database.collection("user").document(uid).set(mapOf("cntVoice" to count + 1))
+            .addOnSuccessListener {
+                database.collection("user").document(uid)
+                    .collection(vid).document("attr").set(
+                        mapOf(
+                            "name" to name,
+                            "pitch" to pitch
+                        )
+                    ).addOnCompleteListener {
+                        trySend(it.isSuccessful)
+                    }
+            }.addOnFailureListener {
+                trySend(false)
+            }
         awaitClose()
     }.first()
 }
