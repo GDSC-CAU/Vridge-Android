@@ -111,13 +111,18 @@ fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = 
             sliderPosition = sliderPosition,
             onConfirmRequest = {
                 viewModel.confirmVoice(voiceName.value, sliderPosition.floatValue)
-                navHostController.popBackStack()
             }
         )
     }
 
     LaunchedEffect(key1 = fileName) {
         viewModel.setFileName(fileName)
+    }
+
+    LaunchedEffect(key1 = finished) {
+        if (finished) {
+            navHostController.popBackStack()
+        }
     }
 }
 
@@ -265,7 +270,7 @@ fun RecordNavigator(
         }
         RecordNavigateButton(
             text = if (isFinish) stringResource(id = R.string.record_btn_finish) else stringResource(id = R.string.record_btn_next),
-            true
+            clickable
         ) {
             onClickNext()
         }
