@@ -39,7 +39,7 @@ Through our application-based project, they can synthesize their own unique voic
 
 ## Get Started
 
-1. Download Application APK File from [Android Repository Release](https://github.com/GDSC-CAU/Vridge-Android)
+1. Download Application APK File from [Android Repository Release](https://github.com/GDSC-CAU/Vridge-Android/releases/tag/v0.1.0)
 2. Install APK on your Android Device
 
 ## Application Screenshots
