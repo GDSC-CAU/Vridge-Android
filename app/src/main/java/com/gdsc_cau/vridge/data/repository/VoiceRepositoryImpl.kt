@@ -31,23 +31,38 @@ class VoiceRepositoryImpl
                     val buffer = ByteArray(size)
                     it.read(buffer)
                     String(buffer).split("\n")
-                }
+                }.filter { it.isNotBlank() }
+
+        private var vid: String? = null
+        private var path: String? = null
 
         override fun getTrainingText(index: Int): String {
             return scripts[index - 1]
         }
 
-        override suspend fun makeVoice(path: String): Boolean {
-            val uid = auth.currentUser?.uid ?: return false
-            val vid = UUID.randomUUID().toString().replace("-", "")
-            (1..45).forEach {
-                val fileName = "$path/$it.m4a"
-                val fileReader = FileInputStream(fileName)
-                val data = ByteArray(fileReader.available())
-                fileReader.read(data)
-                storage.uploadFile(uid, vid, "$it.m4a", data)
-            }
+        override fun getScriptSize(): Int {
+            return scripts.size
+        }
 
+        override suspend fun beforeRecord(path: String): Boolean {
+            vid = UUID.randomUUID().toString().replace("-", "")
+            this.path = path
+            return true
+        }
+
+        override suspend fun saveVoice(index: Int): Boolean {
+            val uid = auth.currentUser?.uid ?: return false
+            val vid = this.vid ?: return false
+            val fileName = "$path/$index.m4a"
+            val fileReader = FileInputStream(fileName)
+            val data = ByteArray(fileReader.available())
+            fileReader.read(data)
+            return storage.uploadFile(uid, vid, "$index.m4a", data)
+        }
+
+        override suspend fun afterRecord(): Boolean {
+            val uid = auth.currentUser?.uid ?: return false
+            val vid = this.vid ?: return false
             val data = JsonObject(
                 mapOf(
                     "uid" to JsonPrimitive(uid),
@@ -55,9 +70,7 @@ class VoiceRepositoryImpl
                     "path" to JsonPrimitive("$uid/$vid/train")
                 )
             )
-
             database.saveVoice(uid, vid)
-
             return api.uploadTrainingVoice(data)
         }
 
@@ -67,7 +80,7 @@ class VoiceRepositoryImpl
             val data = JsonObject(
                 mapOf(
                     "uid" to JsonPrimitive(uid),
-                    "vid" to JsonArray(vid.map { JsonPrimitive(it) })
+                    "vids" to JsonArray( vid.map { JsonPrimitive(it) } )
                 )
             )
 
