@@ -5,6 +5,9 @@ import com.gdsc_cau.vridge.data.models.Tts
 import com.gdsc_cau.vridge.data.models.User
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import kotlinx.coroutines.channels.awaitClose
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
@@ -64,7 +67,7 @@ constructor(
         )
     }
 
-    suspend fun saveVoice(uid: String, vid: String) {
+    suspend fun saveVoice(uid: String, vid: String) = callbackFlow {
         val result = database.collection("user").document(uid).get().await()
         val count = result.data?.get("cntVoice") as Long
 
@@ -74,6 +77,9 @@ constructor(
                 "cntVoice" to count + 1,
                 "voice" to data
             ), SetOptions.merge()
-        )
-    }
+        ).addOnCompleteListener {
+            trySend(it.isSuccessful)
+        }
+        awaitClose()
+    }.first()
 }
