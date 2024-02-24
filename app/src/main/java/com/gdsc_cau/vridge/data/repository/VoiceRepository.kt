@@ -8,7 +8,7 @@ interface VoiceRepository {
     fun getScriptSize(): Int
     suspend fun beforeRecord(path: String): Boolean
     suspend fun saveVoice(index: Int): Boolean
-    suspend fun afterRecord(): Boolean
+    suspend fun afterRecord(name: String, pitch: Float): Boolean
     suspend fun synthesize(vid: List<String>): String
     suspend fun getVoiceList(): List<Voice>
 }
