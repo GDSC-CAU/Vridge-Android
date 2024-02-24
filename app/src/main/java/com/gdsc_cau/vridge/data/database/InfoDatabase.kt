@@ -51,7 +51,7 @@ constructor(
                 if (document != null) {
                     val data = document.data
                     if (data != null) {
-                        voiceList = data.get("voice") as Map<String, String>
+                        voiceList = data.get("voice") as? Map<String, String> ?: mapOf()
                     }
                 }
             }
@@ -77,7 +77,8 @@ constructor(
                         mapOf(
                             "name" to name,
                             "pitch" to pitch
-                        )
+                        ),
+                        SetOptions.merge()
                     ).addOnCompleteListener {
                         trySend(it.isSuccessful)
                     }
