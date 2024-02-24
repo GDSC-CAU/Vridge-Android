@@ -31,33 +31,48 @@ class RecordViewModel @Inject constructor(
     private val _finished = MutableStateFlow(false)
     val finished: StateFlow<Boolean> = _finished
 
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
     private var recorder: MediaRecorder? = null
     private var player: MediaPlayer? = null
 
     private lateinit var fileDir: String
     private lateinit var fileName: String
 
+    val scriptSize = repository.getScriptSize()
+
     fun setFileName(name: String) {
-        fileDir = name
-        fileName = "$fileDir/${recordIndex.value}.m4a"
-        Log.d("RecordViewModel", "fileName: $fileName")
+        viewModelScope.launch {
+            fileDir = name
+            fileName = "$fileDir/${recordIndex.value}.m4a"
+            repository.beforeRecord(fileDir)
+            Log.d(LOG_TAG, "fileDir: $fileDir, fileName: $fileName")
+        }
     }
 
     fun getNextText() {
         viewModelScope.launch {
-            if (recordIndex.value == 45) {
-                if (repository.makeVoice(fileDir)) {
-                    _finished.emit(true)
+            _isLoading.emit(true)
+            if (recordIndex.value == repository.getScriptSize()) {
+                if (!repository.saveVoice(recordIndex.value)) {
+                    _finished.emit(false)
+                } else {
+                    _finished.emit(repository.afterRecord())
+                }
+            } else {
+                val result = repository.saveVoice(recordIndex.value)
+                if (result) {
+                    _recordIndex.emit(recordIndex.value + 1)
+                    fileName = "$fileDir/${recordIndex.value}.m4a"
+                    _recordText.emit(repository.getTrainingText(recordIndex.value))
+                    _isRecorded.emit(false)
                 }
             }
-            else {
-                fileName = "$fileDir/${recordIndex.value}.m4a"
-                _recordIndex.emit(recordIndex.value + 1)
-                _recordText.emit(repository.getTrainingText(recordIndex.value))
-                _isRecorded.emit(false)
-            }
+            _isLoading.emit(false)
         }
     }
+
 
     fun onRecord(start: Boolean, recorder: MediaRecorder? = null) {
         viewModelScope.launch {
@@ -117,5 +132,4 @@ class RecordViewModel @Inject constructor(
             release()
         }
     }
-
 }
