@@ -1,9 +1,10 @@
 package com.gdsc_cau.vridge.ui.voicelist
 
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 
-fun NavController.navigateVoiceList() {
-    navigate(VoiceListRoute.route)
+fun NavController.navigateVoiceList(navOptions: NavOptions) {
+    navigate(VoiceListRoute.route, navOptions)
 }
 
 object VoiceListRoute {
