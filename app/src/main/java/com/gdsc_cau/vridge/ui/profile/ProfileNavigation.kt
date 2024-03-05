@@ -1,9 +1,10 @@
 package com.gdsc_cau.vridge.ui.profile
 
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 
-fun NavController.navigateProfile() {
-    navigate(ProfileRoute.route)
+fun NavController.navigateProfile(navOptions: NavOptions) {
+    navigate(ProfileRoute.route, navOptions)
 }
 
 object ProfileRoute {
