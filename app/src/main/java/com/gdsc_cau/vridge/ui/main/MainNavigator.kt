@@ -4,8 +4,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
 import com.gdsc_cau.vridge.ui.profile.navigateProfile
 import com.gdsc_cau.vridge.ui.record.navigateRecord
 import com.gdsc_cau.vridge.ui.talk.navigateTalk
@@ -24,14 +26,20 @@ class MainNavigator(
         @Composable get() = currentDestination?.route?.let { MainTab.find(it) }
 
     fun navigate(tab: MainTab) {
+        val navOptions = navOptions {
+            popUpTo(navController.graph.id) {
+                inclusive = false
+            }
+        }
+
         when (tab) {
-            MainTab.VOICE_LIST -> navigateVoiceList()
-            MainTab.PROFILE -> navigateProfile()
+            MainTab.VOICE_LIST -> navigateVoiceList(navOptions)
+            MainTab.PROFILE -> navigateProfile(navOptions)
         }
     }
 
-    fun navigateVoiceList() {
-        navController.navigateVoiceList()
+    fun navigateVoiceList(navOptions: NavOptions) {
+        navController.navigateVoiceList(navOptions)
     }
 
     fun navigateRecord() {
@@ -42,8 +50,8 @@ class MainNavigator(
         navController.navigateTalk(sessionId)
     }
 
-    fun navigateProfile() {
-        navController.navigateProfile()
+    fun navigateProfile(navOptions: NavOptions) {
+        navController.navigateProfile(navOptions)
     }
 
     fun popBackStack() {
