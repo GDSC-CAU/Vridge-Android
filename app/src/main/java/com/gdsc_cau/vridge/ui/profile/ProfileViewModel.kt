@@ -1,22 +1,20 @@
 package com.gdsc_cau.vridge.ui.profile
 
-import android.content.Intent
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.gdsc_cau.vridge.data.models.User
 import com.gdsc_cau.vridge.data.repository.UserRepository
-import com.gdsc_cau.vridge.ui.main.MainActivity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
     private val _user = MutableStateFlow(User())
-    val user: StateFlow<User> = _user
+    val user: StateFlow<User> = _user.asStateFlow()
 
     private val _isLoggedOut = MutableStateFlow(false)
     val isLoggedOut: StateFlow<Boolean> = _isLoggedOut
@@ -27,7 +25,11 @@ class ProfileViewModel @Inject constructor(private val repository: UserRepositor
 
     fun getUserInfo() {
         viewModelScope.launch {
-            _user.emit(repository.getUserInfo(repository.getUid()))
+            try {
+                _user.emit(repository.getUserInfo(repository.getUid()))
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
