@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,6 +26,8 @@ import com.gdsc_cau.vridge.data.models.User
 import com.gdsc_cau.vridge.ui.login.LoginActivity
 import com.gdsc_cau.vridge.ui.main.MainActivity
 import com.gdsc_cau.vridge.ui.theme.Grey3
+import com.gdsc_cau.vridge.ui.util.TopBarType
+import com.gdsc_cau.vridge.ui.util.VridgeTopBar
 
 @Composable
 fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
@@ -32,8 +35,10 @@ fun ProfileScreen(viewModel: ProfileViewModel = hiltViewModel()) {
     val isLoggedOut = viewModel.isLoggedOut.collectAsStateWithLifecycle().value
 
     val context = LocalContext.current
-
-    ProfileList(profileData = user, viewModel = viewModel)
+    Box(modifier = Modifier.fillMaxSize()) {
+        VridgeTopBar(title = "Profile", type = TopBarType.NONE)
+        ProfileList(profileData = user, viewModel = viewModel)
+    }
 
     LaunchedEffect(key1 = isLoggedOut) {
         if (isLoggedOut) {
