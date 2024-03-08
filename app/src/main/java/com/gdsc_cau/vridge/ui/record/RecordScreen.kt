@@ -51,9 +51,11 @@ import com.gdsc_cau.vridge.ui.theme.Grey4
 import com.gdsc_cau.vridge.ui.theme.Primary
 import com.gdsc_cau.vridge.ui.theme.White
 import com.gdsc_cau.vridge.ui.util.LoadingDialog
+import com.gdsc_cau.vridge.ui.util.TopBarType
+import com.gdsc_cau.vridge.ui.util.VridgeTopBar
 
 @Composable
-fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = hiltViewModel()) {
+fun RecordScreen(onBackClick: () -> Unit, viewModel: RecordViewModel = hiltViewModel()) {
     val index = viewModel.recordIndex.collectAsStateWithLifecycle().value
     val text = viewModel.recordText.collectAsStateWithLifecycle().value
     val isRecorded = viewModel.isRecorded.collectAsStateWithLifecycle().value
@@ -84,6 +86,7 @@ fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = 
         Modifier
             .fillMaxSize()
     ) {
+        VridgeTopBar(title = "Voice Recording", type = TopBarType.CLOSE, onBackClick = onBackClick)
         RecordDataView(idx = if (index <= viewModel.scriptSize) "$index / ${viewModel.scriptSize}" else "", data = text)
         Box(
             modifier =
@@ -121,7 +124,7 @@ fun RecordScreen(navHostController: MainNavigator, viewModel: RecordViewModel = 
 
     LaunchedEffect(key1 = finished) {
         if (finished) {
-            navHostController.popBackStack()
+            onBackClick()
         }
     }
 }
