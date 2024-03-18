@@ -1,8 +1,8 @@
 package com.gdsc_cau.vridge.data.api
 
 import com.gdsc_cau.vridge.data.models.ApiResponse
-import com.gdsc_cau.vridge.data.models.TtsDTO
-import com.gdsc_cau.vridge.data.models.VoiceListDTO
+import com.gdsc_cau.vridge.data.dto.TtsDTO
+import com.gdsc_cau.vridge.data.models.VoiceListResponse
 import kotlinx.serialization.json.JsonObject
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -23,7 +23,7 @@ interface VridgeApi {
     @GET("api/v1/voice/list")
     suspend fun getVoiceList(
         @Query("uid") uid: String
-    ): VoiceListDTO
+    ): VoiceListResponse
 
     @POST("api/v1/voice/upload")
     suspend fun uploadTrainingVoice(

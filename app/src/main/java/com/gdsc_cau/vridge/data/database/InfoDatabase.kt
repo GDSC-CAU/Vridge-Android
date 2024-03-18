@@ -1,6 +1,6 @@
 package com.gdsc_cau.vridge.data.database
 
-import com.gdsc_cau.vridge.data.models.InvalidUidException
+import com.gdsc_cau.vridge.ui.util.InvalidUidException
 import com.gdsc_cau.vridge.data.models.Tts
 import com.gdsc_cau.vridge.data.models.User
 import com.google.firebase.firestore.FirebaseFirestore

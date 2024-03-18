@@ -4,10 +4,8 @@ import com.gdsc_cau.vridge.data.api.VridgeApi
 import com.gdsc_cau.vridge.data.database.FileStorage
 import com.gdsc_cau.vridge.data.database.InfoDatabase
 import com.gdsc_cau.vridge.data.models.Tts
-import com.gdsc_cau.vridge.data.models.TtsDTO
+import com.gdsc_cau.vridge.data.dto.TtsDTO
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
 import java.util.UUID
 import javax.inject.Inject
 
