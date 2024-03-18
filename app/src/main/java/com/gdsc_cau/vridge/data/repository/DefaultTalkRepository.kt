@@ -18,7 +18,7 @@ constructor(
     private val database: InfoDatabase
 ) : TalkRepository {
     override suspend fun createTts(text: String, vid: String): String {
-        val uid = auth.currentUser?.uid ?: return ""
+        val uid = getUid() ?: return ""
         val tid = UUID.randomUUID().toString().replace("-", "")
         val data = TtsDTO(text, uid, vid, tid, 0)
 
@@ -29,17 +29,19 @@ constructor(
     }
 
     override suspend fun getTtsUrl(vid: String, tid: String): String {
-        val uid = auth.currentUser?.uid ?: return ""
+        val uid = getUid() ?: return ""
         return storage.getDownloadUrl("$uid/$vid/$tid.wav")
     }
 
     override suspend fun getTalks(vid: String): List<Tts> {
-        val uid = auth.currentUser?.uid ?: return emptyList()
+        val uid = getUid() ?: return emptyList()
         return database.getTalks(uid, vid)
     }
 
     override suspend fun getTtsState(vid: String, tid: String): Boolean {
-        val uid = auth.currentUser?.uid ?: return false
+        val uid = getUid() ?: return false
         return storage.existTts(uid, vid, tid)
     }
+
+    private fun getUid() = auth.currentUser?.uid
 }
