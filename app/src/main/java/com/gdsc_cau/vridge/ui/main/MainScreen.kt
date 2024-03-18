@@ -1,6 +1,5 @@
 package com.gdsc_cau.vridge.ui.main
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +19,7 @@ import com.gdsc_cau.vridge.ui.record.RecordRoute
 import com.gdsc_cau.vridge.ui.record.RecordScreen
 import com.gdsc_cau.vridge.ui.talk.TalkRoute
 import com.gdsc_cau.vridge.ui.talk.TalkScreen
+import com.gdsc_cau.vridge.ui.util.VridgeTopBar
 import com.gdsc_cau.vridge.ui.voicelist.VoiceListRoute
 import com.gdsc_cau.vridge.ui.voicelist.VoiceListScreen
 
@@ -49,7 +49,7 @@ fun MainScreen(
                         )
                     }
                     composable(RecordRoute.route) {
-                        RecordScreen(navigator)
+                        RecordScreen(onBackClick = { navigator.popBackStackIfNotHome() })
                     }
                     composable(
                         route = TalkRoute.detailRoute("{id}"),
@@ -60,20 +60,14 @@ fun MainScreen(
                                 }
                             )
                     ) {
-                        val sessionId = it.arguments?.getString("id") ?: ""
-                        Log.d("MainScreen", "sessionId: $sessionId")
-                        TalkScreen(sessionId)
+                        val voiceId = it.arguments?.getString("id") ?: ""
+                        TalkScreen(voiceId = voiceId, onBackClick = { navigator.popBackStackIfNotHome() })
                     }
                     composable(ProfileRoute.route) {
                         ProfileScreen()
                     }
                 }
             }
-        },
-        topBar = {
-            MainTopBar(
-                title = navigator.currentTab?.title ?: ""
-            )
         },
         bottomBar = {
             MainBottomBar(

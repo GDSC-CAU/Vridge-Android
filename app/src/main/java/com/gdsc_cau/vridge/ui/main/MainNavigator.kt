@@ -28,18 +28,16 @@ class MainNavigator(
     fun navigate(tab: MainTab) {
         val navOptions = navOptions {
             popUpTo(navController.graph.id) {
-                inclusive = false
+                saveState = true
             }
+            launchSingleTop = true
+            restoreState = true
         }
 
         when (tab) {
-            MainTab.VOICE_LIST -> navigateVoiceList(navOptions)
-            MainTab.PROFILE -> navigateProfile(navOptions)
+            MainTab.VOICE_LIST -> navController.navigateVoiceList(navOptions)
+            MainTab.PROFILE -> navController.navigateProfile(navOptions)
         }
-    }
-
-    fun navigateVoiceList(navOptions: NavOptions) {
-        navController.navigateVoiceList(navOptions)
     }
 
     fun navigateRecord() {
@@ -48,10 +46,6 @@ class MainNavigator(
 
     fun navigateTalk(sessionId: String) {
         navController.navigateTalk(sessionId)
-    }
-
-    fun navigateProfile(navOptions: NavOptions) {
-        navController.navigateProfile(navOptions)
     }
 
     fun popBackStack() {

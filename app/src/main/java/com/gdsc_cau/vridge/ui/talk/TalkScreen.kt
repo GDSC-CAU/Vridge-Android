@@ -43,6 +43,8 @@ import com.gdsc_cau.vridge.ui.theme.Grey3
 import com.gdsc_cau.vridge.ui.theme.Grey4
 import com.gdsc_cau.vridge.ui.theme.PrimaryUpperLight
 import com.gdsc_cau.vridge.ui.theme.White
+import com.gdsc_cau.vridge.ui.util.TopBarType
+import com.gdsc_cau.vridge.ui.util.VridgeTopBar
 
 enum class VoiceState {
     VOICE_LOADING,
@@ -53,17 +55,20 @@ enum class VoiceState {
 @Composable
 fun TalkScreen(
     voiceId: String,
+    onBackClick: () -> Unit,
     viewModel: TalkViewModel = hiltViewModel()
 ) {
     viewModel.setVid(voiceId)
 
     val talks = viewModel.talks.collectAsStateWithLifecycle().value
     viewModel.getTalks()
-
-    TalkHistory(talks, viewModel)
-    TalkInput(onSendClicked = {
-        viewModel.createTts(it)
-    })
+    Box(modifier = Modifier.fillMaxSize()) {
+        VridgeTopBar(title = "", type = TopBarType.BACK, onBackClick = onBackClick)
+        TalkHistory(talks, viewModel)
+        TalkInput(onSendClicked = {
+            viewModel.createTts(it)
+        })
+    }
 }
 
 @Composable

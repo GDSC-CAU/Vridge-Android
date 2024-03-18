@@ -3,6 +3,7 @@ package com.gdsc_cau.vridge.ui.voicelist
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -42,6 +43,8 @@ import com.gdsc_cau.vridge.data.models.Voice
 import com.gdsc_cau.vridge.ui.theme.OnPrimaryLight
 import com.gdsc_cau.vridge.ui.theme.Primary
 import com.gdsc_cau.vridge.ui.theme.White
+import com.gdsc_cau.vridge.ui.util.TopBarType
+import com.gdsc_cau.vridge.ui.util.VridgeTopBar
 
 @Composable
 fun VoiceListScreen(
@@ -51,10 +54,14 @@ fun VoiceListScreen(
     viewModel: VoiceListViewModel = hiltViewModel()
 ) {
     val voices = viewModel.voiceList.collectAsStateWithLifecycle().value
-    if (voices.isEmpty()) {
-        EmptyVoiceList(onRecordClick)
-    } else {
-        GridVoiceList(voices, onRecordClick, { viewModel.synthesize(it) }, onVoiceClick)
+    Box(modifier = Modifier.fillMaxSize()) {
+        if (voices.isEmpty()) {
+            VridgeTopBar(title = "Make your voice", type = TopBarType.NONE)
+            EmptyVoiceList(onRecordClick)
+        } else {
+            VridgeTopBar(title = "Choose your voice", type = TopBarType.NONE)
+            GridVoiceList(voices, onRecordClick, { viewModel.synthesize(it) }, onVoiceClick)
+        }
     }
 }
 
