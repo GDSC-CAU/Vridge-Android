@@ -6,7 +6,7 @@ import com.google.firebase.auth.FirebaseUser
 interface UserRepository {
     suspend fun login(token: String): Boolean
 
-    suspend fun unregister(uid: String): Boolean
+    suspend fun unregister(): Boolean
 
     fun getCurrentUser(): FirebaseUser?
 
@@ -14,5 +14,5 @@ interface UserRepository {
 
     fun getUid(): String
 
-    suspend fun getUserInfo(uid: String): User
+    suspend fun getUserInfo(): User
 }
