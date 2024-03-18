@@ -1,11 +1,11 @@
 package com.gdsc_cau.vridge.data.di
 
 import com.gdsc_cau.vridge.data.repository.TalkRepository
-import com.gdsc_cau.vridge.data.repository.TalkRepositoryImpl
+import com.gdsc_cau.vridge.data.repository.DefaultTalkRepository
 import com.gdsc_cau.vridge.data.repository.UserRepository
-import com.gdsc_cau.vridge.data.repository.UserRepositoryImpl
+import com.gdsc_cau.vridge.data.repository.DefaultUserRepository
 import com.gdsc_cau.vridge.data.repository.VoiceRepository
-import com.gdsc_cau.vridge.data.repository.VoiceRepositoryImpl
+import com.gdsc_cau.vridge.data.repository.DefaultVoiceRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -16,16 +16,16 @@ import dagger.hilt.components.SingletonComponent
 abstract class DataModule {
     @Binds
     abstract fun bindTalkRepository(
-        talkRepositoryImpl: TalkRepositoryImpl
+        defaultTalkRepository: DefaultTalkRepository
     ): TalkRepository
 
     @Binds
     abstract fun bindUserRepository(
-        userRepositoryImpl: UserRepositoryImpl
+        defaultUserRepository: DefaultUserRepository
     ): UserRepository
 
     @Binds
     abstract fun bindVoiceRepository(
-        voiceRepositoryImpl: VoiceRepositoryImpl
+        defaultVoiceRepository: DefaultVoiceRepository
     ): VoiceRepository
 }
