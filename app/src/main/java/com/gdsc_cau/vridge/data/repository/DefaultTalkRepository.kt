@@ -4,13 +4,14 @@ import com.gdsc_cau.vridge.data.api.VridgeApi
 import com.gdsc_cau.vridge.data.database.FileStorage
 import com.gdsc_cau.vridge.data.database.InfoDatabase
 import com.gdsc_cau.vridge.data.models.Tts
+import com.gdsc_cau.vridge.data.models.TtsDTO
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import java.util.UUID
 import javax.inject.Inject
 
-class TalkRepositoryImpl
+class DefaultTalkRepository
 @Inject
 constructor(
     private val api: VridgeApi,
@@ -21,18 +22,9 @@ constructor(
     override suspend fun createTts(text: String, vid: String): String {
         val uid = auth.currentUser?.uid ?: return ""
         val tid = UUID.randomUUID().toString().replace("-", "")
-        val data = JsonObject(
-            mapOf(
-                "text" to JsonPrimitive(text),
-                "uid" to JsonPrimitive(uid),
-                "vid" to JsonPrimitive(vid),
-                "tid" to JsonPrimitive(tid),
-                "pitch" to JsonPrimitive(0),
-            )
-        )
+        val data = TtsDTO(text, uid, vid, tid, 0)
 
         if (api.createTts(data).success.not()) return ""
-
         database.saveTts(uid, vid, Tts(tid, text, System.currentTimeMillis()))
 
         return tid
