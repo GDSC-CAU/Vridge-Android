@@ -14,7 +14,7 @@ import java.io.FileInputStream
 import java.util.UUID
 import javax.inject.Inject
 
-class VoiceRepositoryImpl
+class DefaultVoiceRepository
     @Inject
     constructor(
         private val api: VridgeApi,
