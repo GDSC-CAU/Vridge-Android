@@ -1,3 +1,3 @@
-package com.gdsc_cau.vridge.data.models
+package com.gdsc_cau.vridge.ui.util
 
 class InvalidUidException : Exception("Invalid uid")
