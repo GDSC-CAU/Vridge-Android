@@ -9,7 +9,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import javax.inject.Inject
 
-class UserRepositoryImpl
+class DefaultUserRepository
     @Inject
     constructor(
         private val api: VridgeApi,
